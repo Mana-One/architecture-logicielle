@@ -23,7 +23,7 @@ public class Contractor
         return "{" +
                 "'id': " + this.id + ", " +
                 "'firstName': '" + this.firstName + "', " +
-                "'lastName': '" + this.lastName + "'" +
+                "'lastName': '" + this.lastName + "', " +
                 "'email': '" + this.email + "'" +
                 "}";
     }
