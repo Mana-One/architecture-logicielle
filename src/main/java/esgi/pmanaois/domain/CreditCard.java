@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class CreditCard {
     private final String number;
-
     private final String securityCode;
 
     private CreditCard(String number, String securityCode)

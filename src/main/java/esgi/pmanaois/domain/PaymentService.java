@@ -2,7 +2,6 @@ package esgi.pmanaois.domain;
 
 public class PaymentService {
     private static final PaymentAmount REGISTRATION_FEE = PaymentAmount.withEuros(20.0);
-
     private final PaymentGateway paymentGateway;
 
     public PaymentService(PaymentGateway paymentGateway)
