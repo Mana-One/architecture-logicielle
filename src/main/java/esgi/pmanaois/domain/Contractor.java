@@ -30,7 +30,8 @@ public class Contractor
 
     public static Contractor of(String firstName, String lastName, String email)
     {
-        if (EmailValidationEngine.getInstance().test(email)) {
+        if (EmailValidationEngine.getInstance().test(email))
+        {
             return new Contractor(
                     UniqueId.generateWithUUID(),
                     firstName,
