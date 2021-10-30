@@ -4,6 +4,7 @@ import esgi.pmanaois.domain.*;
 import esgi.pmanaois.infrastructure.DefaultContractors;
 import esgi.pmanaois.infrastructure.DefaultEventBus;
 import esgi.pmanaois.infrastructure.DefaultPaymentGateway;
+import esgi.pmanaois.infrastructure.SystemClock;
 
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,8 +28,9 @@ public class App
         );
         var eventBus = new DefaultEventBus(subscriptionMap);
 
+        var clock = new SystemClock();
         var paymentGateway = new DefaultPaymentGateway();
-        var paymentService = new PaymentService(paymentGateway, eventBus);
+        var paymentService = new PaymentService(paymentGateway, eventBus, clock);
 
         paymentService.payRegistrationFee(contractor);
         //registerContractorService.register(contractor);

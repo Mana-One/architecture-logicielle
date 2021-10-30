@@ -16,11 +16,11 @@ public class RegistrationFeePaidEvent implements AppEvent
         this.contractor = Objects.requireNonNull(contractor);
     }
 
-    public static RegistrationFeePaidEvent withContractor(Contractor contractor)
+    public static RegistrationFeePaidEvent of(ZonedDateTime createdAt, Contractor contractor)
     {
         return new RegistrationFeePaidEvent(
                 UniqueId.generateWithUUID(),
-                ZonedDateTime.now(),
+                createdAt,
                 contractor
         );
     }
