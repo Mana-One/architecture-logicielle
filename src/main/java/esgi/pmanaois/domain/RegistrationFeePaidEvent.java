@@ -3,7 +3,7 @@ package esgi.pmanaois.domain;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public class RegistrationFeePaidEvent implements AppEvent
+public final class RegistrationFeePaidEvent implements AppEvent
 {
     private final UniqueId id;
     private final ZonedDateTime createdAt;

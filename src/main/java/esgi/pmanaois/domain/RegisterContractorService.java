@@ -1,6 +1,6 @@
 package esgi.pmanaois.domain;
 
-public class RegisterContractorService
+public final class RegisterContractorService
 {
     private final Contractors contractors;
 

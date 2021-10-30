@@ -1,6 +1,6 @@
 package esgi.pmanaois.domain;
 
-public class RegistrationFeePaidSubscriber implements Subscriber<RegistrationFeePaidEvent>
+public final class RegistrationFeePaidSubscriber implements Subscriber<RegistrationFeePaidEvent>
 {
     private final RegisterContractorService registerContractorService;
 

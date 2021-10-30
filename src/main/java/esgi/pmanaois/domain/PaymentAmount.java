@@ -2,7 +2,7 @@ package esgi.pmanaois.domain;
 
 import java.util.Objects;
 
-public class PaymentAmount {
+public final class PaymentAmount {
     private String currencyCode;
     private double amount;
 

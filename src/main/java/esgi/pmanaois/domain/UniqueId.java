@@ -2,7 +2,7 @@ package esgi.pmanaois.domain;
 
 import java.util.UUID;
 
-public class UniqueId
+public final class UniqueId
 {
     private final String value;
 

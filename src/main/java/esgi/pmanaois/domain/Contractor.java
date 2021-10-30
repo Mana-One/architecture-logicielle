@@ -2,7 +2,7 @@ package esgi.pmanaois.domain;
 
 import java.util.Objects;
 
-public class Contractor
+public final class Contractor
 {
     private final UniqueId id;
     private String firstName;

@@ -2,7 +2,7 @@ package esgi.pmanaois.domain;
 
 import java.util.function.Predicate;
 
-public class EmailValidationEngine implements Predicate<String>
+final class EmailValidationEngine implements Predicate<String>
 {
     private static final EmailValidationEngine INSTANCE = new EmailValidationEngine();
 
