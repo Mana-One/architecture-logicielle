@@ -1,8 +1,4 @@
-package esgi.pmanaois.infrastructure;
-
-import esgi.pmanaois.domain.AppEvent;
-import esgi.pmanaois.domain.EventBus;
-import esgi.pmanaois.domain.Subscriber;
+package esgi.pmanaois.event;
 
 import java.util.List;
 import java.util.Map;

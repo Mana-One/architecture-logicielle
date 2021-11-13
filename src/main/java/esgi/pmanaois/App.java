@@ -2,7 +2,7 @@ package esgi.pmanaois;
 
 import esgi.pmanaois.domain.*;
 import esgi.pmanaois.infrastructure.DefaultContractors;
-import esgi.pmanaois.infrastructure.DefaultEventBus;
+import esgi.pmanaois.event.DefaultEventBus;
 import esgi.pmanaois.infrastructure.DefaultPaymentGateway;
 import esgi.pmanaois.infrastructure.SystemClock;
 

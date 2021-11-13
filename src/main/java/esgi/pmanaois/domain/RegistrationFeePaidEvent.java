@@ -1,5 +1,7 @@
 package esgi.pmanaois.domain;
 
+import esgi.pmanaois.event.AppEvent;
+
 import java.time.ZonedDateTime;
 import java.util.Objects;
 

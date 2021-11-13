@@ -1,4 +1,4 @@
-package esgi.pmanaois.domain;
+package esgi.pmanaois.event;
 
 import java.util.List;
 

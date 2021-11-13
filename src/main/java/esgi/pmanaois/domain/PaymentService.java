@@ -1,5 +1,8 @@
 package esgi.pmanaois.domain;
 
+import esgi.pmanaois.event.AppEvent;
+import esgi.pmanaois.event.EventBus;
+
 public final class PaymentService {
     private static final PaymentAmount REGISTRATION_FEE = PaymentAmount.withEuros(20.0);
     private final PaymentGateway paymentGateway;
