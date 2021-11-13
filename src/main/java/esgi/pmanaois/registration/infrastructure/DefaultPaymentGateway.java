@@ -1,8 +1,8 @@
-package esgi.pmanaois.infrastructure;
+package esgi.pmanaois.registration.infrastructure;
 
-import esgi.pmanaois.domain.Contractor;
-import esgi.pmanaois.domain.PaymentAmount;
-import esgi.pmanaois.domain.PaymentGateway;
+import esgi.pmanaois.registration.domain.Contractor;
+import esgi.pmanaois.registration.domain.PaymentAmount;
+import esgi.pmanaois.registration.domain.PaymentGateway;
 
 public class DefaultPaymentGateway implements PaymentGateway
 {

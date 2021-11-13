@@ -1,10 +1,10 @@
 package esgi.pmanaois;
 
-import esgi.pmanaois.domain.*;
-import esgi.pmanaois.infrastructure.DefaultContractors;
+import esgi.pmanaois.registration.domain.*;
+import esgi.pmanaois.registration.infrastructure.DefaultContractors;
 import esgi.pmanaois.event.DefaultEventBus;
-import esgi.pmanaois.infrastructure.DefaultPaymentGateway;
-import esgi.pmanaois.infrastructure.SystemClock;
+import esgi.pmanaois.registration.infrastructure.DefaultPaymentGateway;
+import esgi.pmanaois.registration.infrastructure.SystemClock;
 
 import java.util.Collections;
 

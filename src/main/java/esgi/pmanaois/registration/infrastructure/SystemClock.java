@@ -1,6 +1,6 @@
-package esgi.pmanaois.infrastructure;
+package esgi.pmanaois.registration.infrastructure;
 
-import esgi.pmanaois.domain.Clock;
+import esgi.pmanaois.registration.domain.Clock;
 
 import java.time.ZonedDateTime;
 

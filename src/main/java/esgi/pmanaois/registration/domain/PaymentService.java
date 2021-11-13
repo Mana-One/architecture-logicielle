@@ -1,4 +1,4 @@
-package esgi.pmanaois.domain;
+package esgi.pmanaois.registration.domain;
 
 import esgi.pmanaois.event.AppEvent;
 import esgi.pmanaois.event.EventBus;

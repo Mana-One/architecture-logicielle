@@ -1,4 +1,4 @@
-package esgi.pmanaois.domain;
+package esgi.pmanaois.registration.domain;
 
 public interface PaymentGateway
 {

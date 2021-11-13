@@ -1,10 +1,8 @@
-package esgi.pmanaois.infrastructure;
+package esgi.pmanaois.registration.infrastructure;
 
-import esgi.pmanaois.domain.Contractor;
-import esgi.pmanaois.domain.Contractors;
-import esgi.pmanaois.domain.UniqueId;
-
-import javax.naming.OperationNotSupportedException;
+import esgi.pmanaois.registration.domain.Contractor;
+import esgi.pmanaois.registration.domain.Contractors;
+import esgi.pmanaois.registration.domain.UniqueId;
 
 public class DefaultContractors implements Contractors
 {
