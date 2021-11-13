@@ -1,6 +1,6 @@
 package esgi.pmanaois.registration.infrastructure;
 
-import esgi.pmanaois.registration.domain.Contractor;
+import esgi.pmanaois.common.Contractor;
 import esgi.pmanaois.registration.domain.PaymentAmount;
 import esgi.pmanaois.registration.domain.PaymentGateway;
 

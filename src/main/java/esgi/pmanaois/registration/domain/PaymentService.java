@@ -1,5 +1,8 @@
 package esgi.pmanaois.registration.domain;
 
+import esgi.pmanaois.common.Clock;
+import esgi.pmanaois.common.Contractor;
+import esgi.pmanaois.common.RegistrationFeePaidEvent;
 import esgi.pmanaois.event.AppEvent;
 import esgi.pmanaois.event.EventBus;
 

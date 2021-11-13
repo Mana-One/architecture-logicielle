@@ -1,6 +1,6 @@
 package esgi.pmanaois.event;
 
-import esgi.pmanaois.registration.domain.UniqueId;
+import esgi.pmanaois.common.UniqueId;
 
 import java.time.ZonedDateTime;
 

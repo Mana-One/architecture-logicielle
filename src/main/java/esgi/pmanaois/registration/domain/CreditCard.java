@@ -2,7 +2,7 @@ package esgi.pmanaois.registration.domain;
 
 import java.util.Objects;
 
-final class CreditCard {
+public final class CreditCard {
     private final String number;
     private final String securityCode;
 
