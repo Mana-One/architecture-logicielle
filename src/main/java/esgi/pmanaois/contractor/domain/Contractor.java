@@ -1,4 +1,7 @@
-package esgi.pmanaois.common;
+package esgi.pmanaois.contractor.domain;
+
+import esgi.pmanaois.common.CardOwnerDto;
+import esgi.pmanaois.common.UniqueId;
 
 import java.util.Objects;
 
@@ -21,24 +24,19 @@ public final class Contractor
     public String toString()
     {
         return "{" +
-                "'id': " + this.id + ", " +
+                "'id': " + this.id.getValue() + ", " +
                 "'firstName': '" + this.firstName + "', " +
                 "'lastName': '" + this.lastName + "', " +
                 "'email': '" + this.email + "'" +
                 "}";
     }
 
-    public static Contractor of(String firstName, String lastName, String email)
+    public static Contractor fromCardOwnerDto(CardOwnerDto dto)
     {
-        if (EmailValidationEngine.getInstance().test(email))
-        {
-            return new Contractor(
-                    UniqueId.generateWithUUID(),
-                    firstName,
-                    lastName,
-                    email
-            );
-        }
-        throw new IllegalArgumentException("Invalid email");
+        return new Contractor(
+                UniqueId.generateWithUUID(),
+                dto.firstName,
+                dto.lastName,
+                dto.email);
     }
 }

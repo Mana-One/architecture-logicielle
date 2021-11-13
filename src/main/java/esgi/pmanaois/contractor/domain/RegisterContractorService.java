@@ -1,7 +1,5 @@
 package esgi.pmanaois.contractor.domain;
 
-import esgi.pmanaois.common.Contractor;
-
 public final class RegisterContractorService
 {
     private final Contractors contractors;

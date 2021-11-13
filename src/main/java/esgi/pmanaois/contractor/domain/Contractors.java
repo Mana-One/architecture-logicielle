@@ -1,6 +1,5 @@
 package esgi.pmanaois.contractor.domain;
 
-import esgi.pmanaois.common.Contractor;
 import esgi.pmanaois.common.UniqueId;
 
 public interface Contractors

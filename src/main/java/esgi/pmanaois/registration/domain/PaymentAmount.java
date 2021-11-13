@@ -30,9 +30,6 @@ public final class PaymentAmount {
      @Override
     public String toString()
      {
-         return "{" +
-                 "'curencyCode': '" + this.currencyCode + "', " +
-                 "'amount': " + String.format("%.2f", this.amount) +
-                 "}";
+         return String.format("%.2f %s", this.amount, this.currencyCode);
      }
 }

@@ -9,21 +9,21 @@ public final class RegistrationFeePaidEvent implements AppEvent
 {
     private final UniqueId id;
     private final ZonedDateTime createdAt;
-    private final Contractor contractor;
+    private final CardOwnerDto payload;
 
-    private RegistrationFeePaidEvent(UniqueId id, ZonedDateTime createdAt, Contractor contractor)
+    private RegistrationFeePaidEvent(UniqueId id, ZonedDateTime createdAt, CardOwnerDto payload)
     {
         this.id = id;
         this.createdAt = createdAt;
-        this.contractor = Objects.requireNonNull(contractor);
+        this.payload = Objects.requireNonNull(payload);
     }
 
-    public static RegistrationFeePaidEvent of(ZonedDateTime createdAt, Contractor contractor)
+    public static RegistrationFeePaidEvent of(ZonedDateTime createdAt, CardOwnerDto payload)
     {
         return new RegistrationFeePaidEvent(
                 UniqueId.generateWithUUID(),
                 createdAt,
-                contractor
+                payload
         );
     }
 
@@ -39,9 +39,9 @@ public final class RegistrationFeePaidEvent implements AppEvent
         return this.createdAt;
     }
 
-    public Contractor getContractor()
+    public CardOwnerDto getPayload()
     {
-        return this.contractor;
+        return this.payload;
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class RegistrationFeePaidEvent implements AppEvent
     {
         return "{" + "'id': " + this.id +
                 ", 'createdAt': '" + this.createdAt +
-                "', 'contractor': " +this.contractor +
+                "', 'payload': " +this.payload +
                 "}";
     }
 }

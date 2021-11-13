@@ -1,7 +1,7 @@
 package esgi.pmanaois.registration.domain;
 
+import esgi.pmanaois.common.CardOwnerDto;
 import esgi.pmanaois.common.Clock;
-import esgi.pmanaois.common.Contractor;
 import esgi.pmanaois.common.RegistrationFeePaidEvent;
 import esgi.pmanaois.event.AppEvent;
 import esgi.pmanaois.event.EventBus;
@@ -19,9 +19,15 @@ public final class PaymentService {
         this.clock = clock;
     }
 
-    public void payRegistrationFee(Contractor contractor)
+    public void payRegistrationFee(CreditCard card)
     {
-        this.paymentGateway.processRegistration(contractor, REGISTRATION_FEE);
-        this.eventBus.dispatch(RegistrationFeePaidEvent.of(this.clock.now(), contractor));
+        this.paymentGateway.processRegistration(card, REGISTRATION_FEE);
+        Owner owner = card.getOwner();
+        this.eventBus.dispatch(RegistrationFeePaidEvent.of(
+                this.clock.now(),
+                new CardOwnerDto(
+                        owner.getFirstName(),
+                        owner.getLastName(),
+                        owner.getEmail())));
     }
 }

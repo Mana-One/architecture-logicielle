@@ -3,7 +3,7 @@ package esgi.pmanaois.event;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultEventBus<TEvent extends AppEvent> implements EventBus<TEvent>
+public final class DefaultEventBus<TEvent extends AppEvent> implements EventBus<TEvent>
 {
     private Map<Class<TEvent>, List<Subscriber<TEvent>>> subscriptionMap;
 

@@ -1,4 +1,4 @@
-package esgi.pmanaois.common;
+package esgi.pmanaois.registration.domain;
 
 import java.util.function.Predicate;
 

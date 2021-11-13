@@ -1,6 +1,6 @@
 package esgi.pmanaois.contractor.infrastructure;
 
-import esgi.pmanaois.common.Contractor;
+import esgi.pmanaois.contractor.domain.Contractor;
 import esgi.pmanaois.contractor.domain.Contractors;
 import esgi.pmanaois.common.UniqueId;
 

@@ -1,8 +1,8 @@
 package esgi.pmanaois;
 
-import esgi.pmanaois.common.Contractor;
+import esgi.pmanaois.contractor.domain.Contractor;
 import esgi.pmanaois.common.RegistrationFeePaidEvent;
-import esgi.pmanaois.common.RegistrationFeePaidSubscriber;
+import esgi.pmanaois.contractor.infrastructure.RegistrationFeePaidSubscriber;
 import esgi.pmanaois.contractor.domain.RegisterContractorService;
 import esgi.pmanaois.registration.domain.*;
 import esgi.pmanaois.contractor.infrastructure.DefaultContractors;
@@ -16,11 +16,12 @@ public class App
 {
     public static void main( String[] args )
     {
-        var contractor = Contractor.of(
+        var card = CreditCard.of(
+                "0000000000000000",
+                "000",
                 "Paolo",
                 "Manaois",
-                "username@domain.com"
-        );
+                "username@domain.com");
 
         var contractorsRepository = new DefaultContractors();
         var registerContractorService = new RegisterContractorService(contractorsRepository);
@@ -35,6 +36,6 @@ public class App
         var paymentGateway = new DefaultPaymentGateway();
         var paymentService = new PaymentService(paymentGateway, eventBus, clock);
 
-        paymentService.payRegistrationFee(contractor);
+        paymentService.payRegistrationFee(card);
     }
 }
