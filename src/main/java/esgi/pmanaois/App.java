@@ -1,11 +1,10 @@
 package esgi.pmanaois;
 
-import esgi.pmanaois.contractor.domain.Contractor;
 import esgi.pmanaois.common.RegistrationFeePaidEvent;
-import esgi.pmanaois.contractor.infrastructure.RegistrationFeePaidSubscriber;
-import esgi.pmanaois.contractor.domain.RegisterContractorService;
+import esgi.pmanaois.user.infrastructure.RegistrationFeePaidSubscriber;
+import esgi.pmanaois.user.domain.RegisterUserService;
 import esgi.pmanaois.registration.domain.*;
-import esgi.pmanaois.contractor.infrastructure.DefaultContractors;
+import esgi.pmanaois.user.infrastructure.DefaultUsers;
 import esgi.pmanaois.event.DefaultEventBus;
 import esgi.pmanaois.registration.infrastructure.DefaultPaymentGateway;
 import esgi.pmanaois.common.SystemClock;
@@ -16,15 +15,14 @@ public class App
 {
     public static void main( String[] args )
     {
+        var owner = Owner.createContractor("Paolo", "Manaois", "username@domain.com");
         var card = CreditCard.of(
                 "0000000000000000",
                 "000",
-                "Paolo",
-                "Manaois",
-                "username@domain.com");
+                owner);
 
-        var contractorsRepository = new DefaultContractors();
-        var registerContractorService = new RegisterContractorService(contractorsRepository);
+        var contractorsRepository = new DefaultUsers();
+        var registerContractorService = new RegisterUserService(contractorsRepository);
 
         var subscriptionMap = Collections.singletonMap(
                 RegistrationFeePaidEvent.class,

@@ -19,14 +19,12 @@ public final class CreditCard {
     public static CreditCard of(
             String number,
             String securityCode,
-            String firstName,
-            String lastName,
-            String email)
+            Owner owner)
     {
         var card = new CreditCard(
                 number,
                 securityCode,
-                Owner.of(firstName, lastName, email));
+                owner);
 
         if (CreditCardValidationEngine.getInstance().test(card))
         {

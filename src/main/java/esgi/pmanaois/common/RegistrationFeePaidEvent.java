@@ -47,9 +47,9 @@ public final class RegistrationFeePaidEvent implements AppEvent
     @Override
     public String toString()
     {
-        return "{" + "'id': " + this.id +
-                ", 'createdAt': '" + this.createdAt +
-                "', 'payload': " +this.payload +
+        return "{" + "'id': '" + this.id.getValue() + "', " +
+                "'createdAt': '" + this.createdAt + "', " +
+                "'payload': " + this.payload +
                 "}";
     }
 }

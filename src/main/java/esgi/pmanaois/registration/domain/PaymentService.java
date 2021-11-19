@@ -28,6 +28,7 @@ public final class PaymentService {
                 new CardOwnerDto(
                         owner.getFirstName(),
                         owner.getLastName(),
-                        owner.getEmail())));
+                        owner.getEmail(),
+                        owner.getRole().getName())));
     }
 }
