@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 final public class UserId implements UniqueId {
-    private UUID value;
+    final private UUID value;
 
     private UserId(UUID value) {
         this.value = Objects.requireNonNull(value);
