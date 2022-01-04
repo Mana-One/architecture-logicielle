@@ -8,7 +8,7 @@ Modules :
 * user  
 
 ## Module Common  
-Contient des classes communes à plusieurs modules, notamment une classe pour gérer le temps et une classe pour construire
+Contient des classes communes à plusieurs esgi.pmanaois.cc.modules, notamment une classe pour gérer le temps et une classe pour construire
 des UniqueIds.  
 Les évènements de l'application sont également définis dans ce module.  
 La class Role est assez particuliére car seules certaines valeurs sont autorisées, ainsi, le constructeur est privé et 
