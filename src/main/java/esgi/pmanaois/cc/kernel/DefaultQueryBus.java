@@ -2,7 +2,7 @@ package esgi.pmanaois.cc.kernel;
 
 import java.util.Map;
 
-public class DefaultQueryBus implements QueryBus {
+public class DefaultQueryBus<TQuery extends Query, R> implements QueryBus<TQuery, R> {
     private final Map<Class<? extends Query>, QueryHandler> dataMap;
     
     public DefaultQueryBus(Map<Class<? extends Query>, QueryHandler> dataMap) {
@@ -10,11 +10,11 @@ public class DefaultQueryBus implements QueryBus {
     }
 
     @Override
-    public <TQuery extends Query, R> R send(TQuery query) {
+    public R send(TQuery query) {
         return dispatch(query);
     }
 
-    private <Q extends Query, R> R dispatch(Q query) {
+    private R dispatch(TQuery query) {
         final QueryHandler queryHandler = dataMap.get(query.getClass());
         if (queryHandler == null) {
             throw new RuntimeException("No such query handler for " + query.getClass().getName());

@@ -2,7 +2,7 @@ package esgi.pmanaois.cc.kernel;
 
 import java.util.Map;
 
-public class DefaultCommandBus implements CommandBus {
+public class DefaultCommandBus<TCommand extends Command, R> implements CommandBus<TCommand, R> {
     private final Map<Class<? extends Command>, CommandHandler> dataMap;
 
     public DefaultCommandBus(Map<Class<? extends Command>, CommandHandler> dataMap) {
@@ -10,7 +10,7 @@ public class DefaultCommandBus implements CommandBus {
     }
 
     @Override
-    public <TCommand extends Command, R> R send(TCommand command) {
+    public R send(TCommand command) {
         return dispatch(command);
     }    
 
