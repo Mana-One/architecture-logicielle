@@ -1,9 +1,6 @@
 package esgi.pmanaois.cc;
 
-import esgi.pmanaois.cc.kernel.DefaultEventDispatcher;
-import esgi.pmanaois.cc.kernel.Event;
-import esgi.pmanaois.cc.kernel.EventDispatcher;
-import esgi.pmanaois.cc.kernel.EventListener;
+import esgi.pmanaois.cc.kernel.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,5 +14,17 @@ public class KernelConfiguration {
     public EventDispatcher<Event> eventEventDispatcher() {
         final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listeners = new HashMap<>();
         return new DefaultEventDispatcher(listeners);
+    }
+
+    @Bean
+    public CommandBus commandBus() {
+        final Map<Class<? extends Command>, CommandHandler> handlers = new HashMap<>();
+        return new DefaultCommandBus(handlers);
+    }
+
+    @Bean
+    public QueryBus queryBus() {
+        final Map<Class<? extends Query>, QueryHandler> handlers = new HashMap<>();
+        return new DefaultQueryBus(handlers);
     }
 }

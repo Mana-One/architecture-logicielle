@@ -3,10 +3,14 @@ package esgi.pmanaois.cc.kernel;
 import java.util.Map;
 
 public class DefaultCommandBus<TCommand extends Command, R> implements CommandBus<TCommand, R> {
-    private final Map<Class<? extends Command>, CommandHandler> dataMap;
+    private final Map<Class<TCommand>, CommandHandler> handlers;
 
-    public DefaultCommandBus(Map<Class<? extends Command>, CommandHandler> dataMap) {
-        this.dataMap = dataMap;
+    public DefaultCommandBus(Map<Class<TCommand>, CommandHandler> dataMap) {
+        this.handlers = dataMap;
+    }
+
+    public void addHandler(Class<TCommand> commandC, CommandHandler handler) {
+        this.handlers.putIfAbsent(commandC, handler);
     }
 
     @Override
@@ -14,8 +18,8 @@ public class DefaultCommandBus<TCommand extends Command, R> implements CommandBu
         return dispatch(command);
     }    
 
-    private <TCommand extends Command, R> R dispatch(TCommand command) {
-        final CommandHandler commandHandler = dataMap.get(command.getClass());
+    private R dispatch(TCommand command) {
+        final CommandHandler commandHandler = handlers.get(command.getClass());
         if (commandHandler == null) {
             throw new RuntimeException("No such command handler for " + command.getClass().getName());
         }
