@@ -1,5 +1,6 @@
 package esgi.pmanaois.cc.modules.membership.exposition;
 
+import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.modules.membership.InvalidUserState;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
@@ -17,10 +18,10 @@ import java.util.Objects;
 
 @RestController
 public class MembershipController {
-    final private RegisterUserHandler registerUserHandler;
+    final private CommandBus commandBus;
 
-    public MembershipController(RegisterUserHandler registerUserHandler) {
-        this.registerUserHandler = Objects.requireNonNull(registerUserHandler);
+    public MembershipController(CommandBus commandBus) {
+        this.commandBus = Objects.requireNonNull(commandBus);
     }
 
     @PostMapping(path = "/membership", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -31,7 +32,7 @@ public class MembershipController {
                 request.email,
                 request.role,
                 request.paymentMethodId);
-        this.registerUserHandler.handle(registerUser);
+        this.commandBus.send(registerUser);
 
         return null;
     }

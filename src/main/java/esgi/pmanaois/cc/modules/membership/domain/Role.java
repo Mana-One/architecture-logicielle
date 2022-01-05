@@ -20,7 +20,7 @@ public enum Role {
     public static Optional<Role> fromString(String name) {
         return EnumSet.allOf(Role.class)
             .stream()
-            .filter(r -> r.getName() == name)
+            .filter(r -> r.name.equals(name))
             .findFirst();
     } 
 }
