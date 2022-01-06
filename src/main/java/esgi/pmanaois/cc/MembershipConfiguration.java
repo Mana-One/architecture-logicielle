@@ -1,11 +1,9 @@
 package esgi.pmanaois.cc;
 
 import esgi.pmanaois.cc.kernel.CommandBus;
-import esgi.pmanaois.cc.kernel.DefaultCommandBus;
-import esgi.pmanaois.cc.kernel.DefaultEventDispatcher;
+import esgi.pmanaois.cc.kernel.EventDispatcher;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
-import esgi.pmanaois.cc.modules.common.UserRegistered;
 import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 import esgi.pmanaois.cc.modules.membership.infrastructure.DefaultUsers;
@@ -29,14 +27,13 @@ public class MembershipConfiguration {
 
     @Bean
     public RegisterUserHandler registerUserHandler() {
-        DefaultEventDispatcher dispatcher = (DefaultEventDispatcher) kernelConfiguration.eventEventDispatcher();
-        dispatcher.registerEvent(UserRegistered.class);
+        EventDispatcher dispatcher = kernelConfiguration.eventEventDispatcher();
         return new RegisterUserHandler(users(), emailValidationEngine(), dispatcher);
     }
 
     @Bean
     public CommandBus membershipCommandBus() {
-        final DefaultCommandBus commandBus = (DefaultCommandBus) kernelConfiguration.commandBus();
+        final CommandBus commandBus = kernelConfiguration.commandBus();
         commandBus.addHandler(RegisterUser.class, registerUserHandler());
         return commandBus;
     }

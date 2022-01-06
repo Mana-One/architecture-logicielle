@@ -9,6 +9,7 @@ public class DefaultQueryBus<TQuery extends Query, R> implements QueryBus<TQuery
         this.handlers = dataMap;
     }
 
+    @Override
     public void addHandler(Class<TQuery> queryC, QueryHandler handler) {
         this.handlers.putIfAbsent(queryC, handler);
     }

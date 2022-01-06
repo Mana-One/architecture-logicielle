@@ -1,6 +1,6 @@
 package esgi.pmanaois.cc.kernel;
 
-@FunctionalInterface
 public interface QueryBus<TQuery extends Query, R> {
+    void addHandler(Class<TQuery> queryC, QueryHandler handler);
     R send(TQuery query);
 }

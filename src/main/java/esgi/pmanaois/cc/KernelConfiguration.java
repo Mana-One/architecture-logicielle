@@ -1,6 +1,7 @@
 package esgi.pmanaois.cc;
 
 import esgi.pmanaois.cc.kernel.*;
+import esgi.pmanaois.cc.modules.common.UserRegistered;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +14,9 @@ public class KernelConfiguration {
     @Bean
     public EventDispatcher<Event> eventEventDispatcher() {
         final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listeners = new HashMap<>();
-        return new DefaultEventDispatcher(listeners);
+        DefaultEventDispatcher dispatcher = new DefaultEventDispatcher(listeners);
+        dispatcher.registerEvent(UserRegistered.class);
+        return dispatcher;
     }
 
     @Bean

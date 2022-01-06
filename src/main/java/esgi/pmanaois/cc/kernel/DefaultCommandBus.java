@@ -9,6 +9,7 @@ public class DefaultCommandBus<TCommand extends Command, R> implements CommandBu
         this.handlers = dataMap;
     }
 
+    @Override
     public void addHandler(Class<TCommand> commandC, CommandHandler handler) {
         this.handlers.putIfAbsent(commandC, handler);
     }
