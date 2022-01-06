@@ -30,4 +30,9 @@ public class KernelConfiguration {
         final Map<Class<? extends Query>, QueryHandler> handlers = new HashMap<>();
         return new DefaultQueryBus(handlers);
     }
+
+    @Bean
+    public Clock clock() {
+        return new SystemClock();
+    }
 }
