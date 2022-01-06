@@ -10,6 +10,6 @@ final public class SystemClock implements Clock {
 
     @Override
     public ZonedDateTime addMonths(ZonedDateTime date, int months) {
-        return date.plusMonths(months);
+        return ZonedDateTime.of(date.toLocalDateTime(), date.getZone()).plusMonths(months);
     }
 }

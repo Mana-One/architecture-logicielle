@@ -31,6 +31,10 @@ public class Price {
         return create(value, "EUR");
     }
 
+    public static Price of(double value, String currency) {
+        return new Price(value, currency);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
