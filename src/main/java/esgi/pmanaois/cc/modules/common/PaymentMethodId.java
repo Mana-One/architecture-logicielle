@@ -1,4 +1,4 @@
-package esgi.pmanaois.cc.modules.membership.domain;
+package esgi.pmanaois.cc.modules.common;
 
 public class PaymentMethodId {
     private final String value;
