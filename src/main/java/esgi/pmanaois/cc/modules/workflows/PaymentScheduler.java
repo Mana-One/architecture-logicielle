@@ -18,7 +18,7 @@ final public class PaymentScheduler {
         this.dispatcher = Objects.requireNonNull(dispatcher);
     }
 
-    @Scheduled(initialDelay = 5000L, fixedRate = 60 * 60 * 1000L)
+    @Scheduled(initialDelay = 5000L, fixedRate = 60 * 1000L)
     public void initiatePayments() {
         this.dispatcher.dispatch(new PaymentsInitiated(this.clock.now()));
     }

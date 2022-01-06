@@ -43,6 +43,11 @@ public class Subscription implements Entity<SubscriptionId> {
         return dueDate;
     }
 
+    public void setForNextMonth() {
+        this.started = this.dueDate;
+        this.dueDate = this.started.plusMonths(1);
+    }
+
     public static Subscription create(Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started) {
         return new Subscription(
                 SubscriptionId.generate(),

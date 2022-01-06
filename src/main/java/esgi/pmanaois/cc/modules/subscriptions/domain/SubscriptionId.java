@@ -3,6 +3,7 @@ package esgi.pmanaois.cc.modules.subscriptions.domain;
 import esgi.pmanaois.cc.kernel.UniqueId;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public class SubscriptionId implements UniqueId {
@@ -18,6 +19,14 @@ public class SubscriptionId implements UniqueId {
 
     public static SubscriptionId generate() {
         return new SubscriptionId(UUID.randomUUID());
+    }
+
+    public static Optional<SubscriptionId> fromString(String uid) {
+        try {
+            return Optional.of(new SubscriptionId(UUID.fromString(uid)));
+        } catch(Exception ex) {
+            return Optional.empty();
+        }
     }
 
     @Override
