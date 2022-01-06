@@ -2,7 +2,6 @@ package esgi.pmanaois.cc.modules.membership.domain;
 
 import esgi.pmanaois.cc.kernel.Entity;
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
-import esgi.pmanaois.cc.modules.membership.InvalidUserState;
 
 import java.util.ArrayList;
 import java.util.List;

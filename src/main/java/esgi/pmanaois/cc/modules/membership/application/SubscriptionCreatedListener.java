@@ -2,8 +2,8 @@ package esgi.pmanaois.cc.modules.membership.application;
 
 import esgi.pmanaois.cc.kernel.EventListener;
 import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
-import esgi.pmanaois.cc.modules.membership.InvalidUserState;
-import esgi.pmanaois.cc.modules.membership.NoSuchUser;
+import esgi.pmanaois.cc.modules.membership.domain.InvalidUserState;
+import esgi.pmanaois.cc.modules.membership.domain.NoSuchUser;
 import esgi.pmanaois.cc.modules.membership.domain.User;
 import esgi.pmanaois.cc.modules.membership.domain.UserId;
 import esgi.pmanaois.cc.modules.membership.domain.Users;

@@ -1,4 +1,4 @@
-package esgi.pmanaois.cc.modules.membership;
+package esgi.pmanaois.cc.modules.membership.domain;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package esgi.pmanaois.cc.modules.membership.exposition;
 
 import esgi.pmanaois.cc.kernel.CommandBus;
-import esgi.pmanaois.cc.modules.membership.InvalidUserState;
+import esgi.pmanaois.cc.modules.membership.domain.InvalidUserState;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

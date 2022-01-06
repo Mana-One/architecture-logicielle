@@ -1,6 +1,4 @@
-package esgi.pmanaois.cc.modules.membership;
-
-import esgi.pmanaois.cc.modules.membership.domain.UserId;
+package esgi.pmanaois.cc.modules.membership.domain;
 
 public class NoSuchUser extends RuntimeException {
     public NoSuchUser(String message) {

@@ -1,6 +1,4 @@
-package esgi.pmanaois.cc.modules.subscriptions;
-
-import esgi.pmanaois.cc.modules.subscriptions.domain.SubscriptionId;
+package esgi.pmanaois.cc.modules.subscriptions.domain;
 
 public class NoSuchSubscription extends RuntimeException {
     public NoSuchSubscription(String message) {
