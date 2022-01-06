@@ -35,13 +35,11 @@ final public class UserRegisteredListener implements EventListener<UserRegistere
         this.paymentGateway.makePayment(REGISTRATION_PRICE, paymentMethodId);
 
         ZonedDateTime now = this.clock.now();
-        ZonedDateTime dueDate = this.clock.addMonths(now, 1);
-        Subscription subscription = Subscription.of(
+        Subscription subscription = Subscription.create(
                 SUBSCRIPTION_PRICE,
                 paymentMethodId,
                 event.getUserId(),
-                now,
-                dueDate);
+                now);
         this.subscriptions.save(subscription);
 
         this.dispatcher.dispatch(new SubscriptionCreated(

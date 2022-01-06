@@ -1,5 +1,6 @@
 package esgi.pmanaois.cc.modules.membership.domain;
 
+import esgi.pmanaois.cc.kernel.Entity;
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
 import esgi.pmanaois.cc.modules.membership.InvalidUserState;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-final public class User {
+final public class User implements Entity<UserId> {
     final private UserId id;
     private Name name;
     private String email;
@@ -47,6 +48,10 @@ final public class User {
 
     public boolean isVerified() {
         return isVerified;
+    }
+
+    public void verify() {
+        this.isVerified = true;
     }
 
     public static User create(
@@ -88,5 +93,13 @@ final public class User {
                 optRole.get(),
                 PaymentMethodId.of(paymentMethodId),
                 false);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return isVerified == user.isVerified && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && role == user.role && Objects.equals(paymentMethodId, user.paymentMethodId);
     }
 }

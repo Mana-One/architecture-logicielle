@@ -23,6 +23,6 @@ final public class InMemoryUsers implements Users {
 
     @Override
     public void save(User user) {
-        this.data.put(user.getId(), user);
+        User result = this.data.put(user.getId(), user);
     }
 }

@@ -1,5 +1,6 @@
 package esgi.pmanaois.cc.modules.membership.domain;
 
+import java.util.Objects;
 import java.util.Optional;
 
 final public class Name {
@@ -29,5 +30,18 @@ final public class Name {
         }
 
         return Optional.of(new Name(first, last));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Name)) return false;
+        Name name = (Name) o;
+        return Objects.equals(first, name.first) && Objects.equals(last, name.last);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, last);
     }
 }

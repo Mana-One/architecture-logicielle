@@ -3,6 +3,7 @@ package esgi.pmanaois.cc.modules.membership.domain;
 import esgi.pmanaois.cc.kernel.UniqueId;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 final public class UserId implements UniqueId {
@@ -25,5 +26,26 @@ final public class UserId implements UniqueId {
 
     public static UserId generate() {
         return new UserId(UUID.randomUUID());
+    }
+
+    public static Optional<UserId> fromString(String uid) {
+        try {
+            return Optional.of(new UserId(UUID.fromString(uid)));
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserId)) return false;
+        UserId userId = (UserId) o;
+        return Objects.equals(value, userId.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }

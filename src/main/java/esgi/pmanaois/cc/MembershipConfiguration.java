@@ -2,8 +2,10 @@ package esgi.pmanaois.cc;
 
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
+import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
+import esgi.pmanaois.cc.modules.membership.application.SubscriptionCreatedListener;
 import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 import esgi.pmanaois.cc.modules.membership.infrastructure.InMemoryUsers;
@@ -27,7 +29,7 @@ public class MembershipConfiguration {
 
     @Bean
     public RegisterUserHandler registerUserHandler() {
-        EventDispatcher dispatcher = kernelConfiguration.eventEventDispatcher();
+        EventDispatcher dispatcher = kernelConfiguration.eventDispatcher();
         return new RegisterUserHandler(users(), emailValidationEngine(), dispatcher);
     }
 
@@ -36,5 +38,14 @@ public class MembershipConfiguration {
         final CommandBus commandBus = kernelConfiguration.commandBus();
         commandBus.addHandler(RegisterUser.class, registerUserHandler());
         return commandBus;
+    }
+
+    @Bean
+    public SubscriptionCreatedListener membershipSubscriptionCreatedListener() {
+        EventDispatcher dispatcher = this.kernelConfiguration.eventDispatcher();
+        SubscriptionCreatedListener listener = new SubscriptionCreatedListener(users());
+        dispatcher.addListener(SubscriptionCreated.class, listener);
+
+        return listener;
     }
 }

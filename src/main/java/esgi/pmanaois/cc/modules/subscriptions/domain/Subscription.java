@@ -7,13 +7,15 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class Subscription implements Entity<SubscriptionId> {
+    final private SubscriptionId id;
     final private Price price;
-    private PaymentMethodId paymentMethodId;
-    private String subscriberId;
+    final private PaymentMethodId paymentMethodId;
+    final private String subscriberId;
     private ZonedDateTime started;
     private ZonedDateTime dueDate;
 
-    private Subscription(Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started, ZonedDateTime dueDate) {
+    private Subscription(SubscriptionId id, Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started, ZonedDateTime dueDate) {
+        this.id = Objects.requireNonNull(id);
         this.price = Objects.requireNonNull(price);
         this.paymentMethodId = Objects.requireNonNull(paymentMethodId);
         this.subscriberId = Objects.requireNonNull(subscriberId);
@@ -41,21 +43,31 @@ public class Subscription implements Entity<SubscriptionId> {
         return dueDate;
     }
 
-    public static Subscription of(Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started, ZonedDateTime dueDate) {
-        return new Subscription(price, paymentMethodId, subscriberId, started, dueDate);
+    public static Subscription create(Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started) {
+        return new Subscription(
+                SubscriptionId.generate(),
+                price,
+                paymentMethodId,
+                subscriberId,
+                started,
+                started.plusMonths(1)
+        );
+    }
+
+    public static Subscription of(SubscriptionId id, Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started, ZonedDateTime dueDate) {
+        return new Subscription(id, price, paymentMethodId, subscriberId, started, dueDate);
     }
 
     @Override
     public SubscriptionId getId() {
-        return null;
+        return this.id;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Subscription)) {
-            return false;
-        }
-        Subscription subscription = (Subscription) obj;
-        return this.getId().equals(subscription.getId());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Subscription)) return false;
+        Subscription that = (Subscription) o;
+        return Objects.equals(id, that.id) && Objects.equals(price, that.price) && Objects.equals(paymentMethodId, that.paymentMethodId) && Objects.equals(subscriberId, that.subscriberId) && Objects.equals(started, that.started) && Objects.equals(dueDate, that.dueDate);
     }
 }
