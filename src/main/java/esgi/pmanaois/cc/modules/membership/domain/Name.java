@@ -11,6 +11,14 @@ final public class Name {
         this.last = last;
     }
 
+    public String getFirst() {
+        return first;
+    }
+
+    public String getLast() {
+        return last;
+    }
+
     public static Optional<Name> create(String first, String last) {
         if (first == null || first.length() == 0) {
             return Optional.empty();

@@ -11,8 +11,12 @@ public class DefaultEventDispatcher<TEvent extends Event> implements EventDispat
         this.eventListeners = eventListeners;
     }
 
-    public void addListener(Class<TEvent> eventC, EventListener<TEvent> eventListener) {
+    public void registerEvent(Class<TEvent> eventC) {
         this.eventListeners.putIfAbsent(eventC, new ArrayList<>());
+    }
+
+    public void addListener(Class<TEvent> eventC, EventListener<TEvent> eventListener) {
+        this.registerEvent(eventC);
         final List<EventListener<TEvent>> eventListeners = this.eventListeners.get(eventC);
         eventListeners.add(eventListener);
     }
@@ -21,6 +25,7 @@ public class DefaultEventDispatcher<TEvent extends Event> implements EventDispat
     public void dispatch(TEvent event) {
         final List<EventListener<TEvent>> eventListeners = this.eventListeners.get(event.getClass());
         if (eventListeners != null) {
+            System.out.println("Dispatched " + event.getClass().getSimpleName() + " event.");
             eventListeners.forEach(e -> e.listenTo(event));
         }
     }

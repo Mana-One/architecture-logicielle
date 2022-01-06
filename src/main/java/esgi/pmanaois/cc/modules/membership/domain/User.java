@@ -24,6 +24,30 @@ final public class User {
         this.isVerified = Objects.requireNonNull(isVerified);
     }
 
+    public UserId getId() {
+        return id;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public PaymentMethodId getPaymentMethodId() {
+        return paymentMethodId;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
     public static User create(
             String firstName,
             String lastName,

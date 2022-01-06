@@ -12,6 +12,10 @@ final public class UserId implements UniqueId {
         this.value = Objects.requireNonNull(value);
     }
 
+    public UUID getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return "UserId{\n" +
