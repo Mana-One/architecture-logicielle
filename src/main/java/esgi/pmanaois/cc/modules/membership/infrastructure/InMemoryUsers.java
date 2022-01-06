@@ -4,21 +4,25 @@ import esgi.pmanaois.cc.modules.membership.domain.User;
 import esgi.pmanaois.cc.modules.membership.domain.UserId;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
-final public class DefaultUsers implements Users {
+final public class InMemoryUsers implements Users {
+    final private Map<UserId, User> data = new ConcurrentHashMap<>();
+
     @Override
     public Optional<User> findById(UserId id) {
-        return Optional.empty();
+        return Optional.ofNullable(this.data.get(id));
     }
 
     @Override
     public void remove(UserId id) {
-        System.out.println("User with " + id + " removed");
+        this.data.remove(id);
     }
 
     @Override
     public void save(User user) {
-        System.out.println("User " + user + " saved.");
+        this.data.put(user.getId(), user);
     }
 }

@@ -6,7 +6,7 @@ import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
 import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
-import esgi.pmanaois.cc.modules.membership.infrastructure.DefaultUsers;
+import esgi.pmanaois.cc.modules.membership.infrastructure.InMemoryUsers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class MembershipConfiguration {
 
     @Bean
     public Users users() {
-        return new DefaultUsers();
+        return new InMemoryUsers();
     }
 
     @Bean
