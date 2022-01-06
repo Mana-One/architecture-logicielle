@@ -1,6 +1,7 @@
 package esgi.pmanaois.cc;
 
 import esgi.pmanaois.cc.kernel.*;
+import esgi.pmanaois.cc.modules.common.PaymentsInitiated;
 import esgi.pmanaois.cc.modules.common.UserRegistered;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ public class KernelConfiguration {
     public EventDispatcher<Event> eventEventDispatcher() {
         final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listeners = new HashMap<>();
         DefaultEventDispatcher dispatcher = new DefaultEventDispatcher(listeners);
+        dispatcher.registerEvent(PaymentsInitiated.class);
         dispatcher.registerEvent(UserRegistered.class);
         return dispatcher;
     }
