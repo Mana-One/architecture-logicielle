@@ -51,8 +51,10 @@ public class MembershipController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidUserState.class)
-    public String handleInvalidUserException(InvalidUserState ex) {
-        return ex.getMessage();
+    public Map<String, String> handleInvalidUserException(InvalidUserState ex) {
+        final Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getMessage());
+        return error;
     }
 
 }

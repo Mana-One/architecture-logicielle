@@ -3,9 +3,7 @@ package esgi.pmanaois.cc.modules.membership.application;
 import esgi.pmanaois.cc.kernel.CommandHandler;
 import esgi.pmanaois.cc.kernel.Event;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
-import esgi.pmanaois.cc.modules.common.PaymentMethodIdValidationEngine;
 import esgi.pmanaois.cc.modules.common.UserRegistered;
-import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
 import esgi.pmanaois.cc.modules.membership.domain.User;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 

@@ -3,10 +3,7 @@ package esgi.pmanaois.cc.modules.membership.domain;
 import esgi.pmanaois.cc.kernel.Entity;
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 final public class User implements Entity<UserId> {
     final private UserId id;

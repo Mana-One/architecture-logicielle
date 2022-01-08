@@ -22,7 +22,12 @@ final public class UserRegisteredListener implements EventListener<UserRegistere
     final private PaymentGateway paymentGateway;
     final private Subscriptions subscriptions;
 
-    public UserRegisteredListener(Clock clock, EventDispatcher dispatcher, PaymentGateway paymentGateway, Subscriptions subscriptions) {
+    public UserRegisteredListener(
+            Clock clock,
+            EventDispatcher dispatcher,
+            PaymentGateway paymentGateway,
+            Subscriptions subscriptions
+    ) {
         this.clock = Objects.requireNonNull(clock);
         this.dispatcher = Objects.requireNonNull(dispatcher);
         this.paymentGateway = Objects.requireNonNull(paymentGateway);

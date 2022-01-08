@@ -45,7 +45,8 @@ public class UserService {
             errors.add("Invalid role.");
         }
 
-        final Optional<PaymentMethodId> optPaymentMethodId = this.paymentMethodIdValidationEngine.validate(paymentMethodId);
+        final Optional<PaymentMethodId> optPaymentMethodId = this.paymentMethodIdValidationEngine
+                .validate(paymentMethodId);
         if (optPaymentMethodId.isEmpty()) {
             errors.add("Invalid payment method id.");
         }

@@ -1,6 +1,5 @@
 package esgi.pmanaois.cc.modules.membership.exposition;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class CreateUserRequest {
