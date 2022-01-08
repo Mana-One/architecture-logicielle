@@ -6,6 +6,7 @@ import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
 import esgi.pmanaois.cc.modules.membership.application.SubscriptionCreatedListener;
+import esgi.pmanaois.cc.modules.membership.application.UserService;
 import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 import esgi.pmanaois.cc.modules.membership.infrastructure.InMemoryUsers;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MembershipConfiguration {
     @Autowired KernelConfiguration kernelConfiguration;
+    @Autowired CommonConfiguration commonConfiguration;
 
     @Bean
     public Users users() {
@@ -28,9 +30,14 @@ public class MembershipConfiguration {
     }
 
     @Bean
+    public UserService userService() {
+        return new UserService(emailValidationEngine(), this.commonConfiguration.paymentMethodIdValidationEngine());
+    }
+
+    @Bean
     public RegisterUserHandler registerUserHandler() {
         EventDispatcher dispatcher = kernelConfiguration.eventDispatcher();
-        return new RegisterUserHandler(users(), emailValidationEngine(), dispatcher);
+        return new RegisterUserHandler(users(),userService(), dispatcher);
     }
 
     @Bean
