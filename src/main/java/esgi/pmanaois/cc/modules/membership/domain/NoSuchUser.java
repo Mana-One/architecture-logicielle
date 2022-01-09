@@ -1,6 +1,6 @@
 package esgi.pmanaois.cc.modules.membership.domain;
 
-public class NoSuchUser extends RuntimeException {
+final public class NoSuchUser extends RuntimeException {
     public NoSuchUser(String message) {
         super(message);
     }

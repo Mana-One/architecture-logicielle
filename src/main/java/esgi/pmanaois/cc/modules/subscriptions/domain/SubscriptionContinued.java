@@ -3,7 +3,7 @@ package esgi.pmanaois.cc.modules.subscriptions.domain;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public class SubscriptionContinued implements SubscriptionEvent {
+final public class SubscriptionContinued implements SubscriptionEvent {
     final private ZonedDateTime started;
     final private ZonedDateTime dueDate;
 

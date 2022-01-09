@@ -3,7 +3,7 @@ package esgi.pmanaois.cc.modules.subscriptions.domain;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Price {
+final public class Price {
     final private double value;
     final private String currency;
 

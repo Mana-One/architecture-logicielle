@@ -2,7 +2,7 @@ package esgi.pmanaois.cc.modules.common;
 
 import java.util.Objects;
 
-public class PaymentMethodId {
+final public class PaymentMethodId {
     private final String value;
 
     private PaymentMethodId(String value) {

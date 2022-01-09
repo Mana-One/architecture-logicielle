@@ -2,7 +2,7 @@ package esgi.pmanaois.cc.modules.membership.application;
 
 import esgi.pmanaois.cc.kernel.Command;
 
-public class RegisterUser implements Command {
+final public class RegisterUser implements Command {
     final public String firstName;
     final public String lastName;
     final public String email;

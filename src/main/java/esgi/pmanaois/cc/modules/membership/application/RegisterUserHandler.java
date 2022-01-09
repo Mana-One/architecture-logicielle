@@ -9,7 +9,7 @@ import esgi.pmanaois.cc.modules.membership.domain.Users;
 
 import java.util.Objects;
 
-public class RegisterUserHandler implements CommandHandler<RegisterUser, Void> {
+final public class RegisterUserHandler implements CommandHandler<RegisterUser, Void> {
     final private Users users;
     final private UserService userService;
     final private EventDispatcher eventDispatcher;

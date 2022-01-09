@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class UserService {
+final public class UserService {
     final private EmailValidationEngine emailValidationEngine;
     final private PaymentMethodIdValidationEngine paymentMethodIdValidationEngine;
 

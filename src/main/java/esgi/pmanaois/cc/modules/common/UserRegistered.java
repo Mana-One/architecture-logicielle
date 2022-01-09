@@ -2,7 +2,7 @@ package esgi.pmanaois.cc.modules.common;
 
 import esgi.pmanaois.cc.kernel.ApplicationEvent;
 
-public class UserRegistered implements ApplicationEvent {
+final public class UserRegistered implements ApplicationEvent {
     private final String userId;
     private final String role;
     private final String paymentMethodId;

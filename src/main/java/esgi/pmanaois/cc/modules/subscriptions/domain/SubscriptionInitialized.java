@@ -3,7 +3,7 @@ package esgi.pmanaois.cc.modules.subscriptions.domain;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public class SubscriptionInitialized implements SubscriptionEvent {
+final public class SubscriptionInitialized implements SubscriptionEvent {
     final private double price;
     final private String currency;
     final private String paymentMethodId;

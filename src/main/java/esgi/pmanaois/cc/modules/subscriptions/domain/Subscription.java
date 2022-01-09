@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Subscription implements Entity<SubscriptionId> {
+final public class Subscription implements Entity<SubscriptionId> {
     final private SubscriptionId id;
     private Price price;
     private PaymentMethodId paymentMethodId;

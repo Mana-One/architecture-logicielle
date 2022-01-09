@@ -2,7 +2,7 @@ package esgi.pmanaois.cc.modules.membership.domain;
 
 import java.util.Objects;
 
-public class UserInitialized implements UserEvent {
+final public class UserInitialized implements UserEvent {
     final private String firstName;
     final private String lastName;
     final private String email;

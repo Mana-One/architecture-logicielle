@@ -4,7 +4,7 @@ import esgi.pmanaois.cc.kernel.Event;
 
 import java.time.ZonedDateTime;
 
-public class PaymentsInitiated implements Event {
+final public class PaymentsInitiated implements Event {
     final private ZonedDateTime dueDate;
 
     public PaymentsInitiated(ZonedDateTime dueDate) {

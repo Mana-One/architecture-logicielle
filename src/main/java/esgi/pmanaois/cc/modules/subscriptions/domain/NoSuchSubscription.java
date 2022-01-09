@@ -1,6 +1,6 @@
 package esgi.pmanaois.cc.modules.subscriptions.domain;
 
-public class NoSuchSubscription extends RuntimeException {
+final public class NoSuchSubscription extends RuntimeException {
     public NoSuchSubscription(String message) {
         super(message);
     }

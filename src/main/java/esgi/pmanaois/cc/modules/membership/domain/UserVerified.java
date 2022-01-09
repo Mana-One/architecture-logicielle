@@ -1,4 +1,4 @@
 package esgi.pmanaois.cc.modules.membership.domain;
 
-public class UserVerified implements UserEvent {
+final public class UserVerified implements UserEvent {
 }
