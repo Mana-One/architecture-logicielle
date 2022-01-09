@@ -21,7 +21,7 @@ final public class PaymentsInitiatedListener implements EventListener<PaymentsIn
         List<Subscription> dueSubscriptions = this.subscriptions.listByDueDate(event.getDueDate());
         dueSubscriptions.forEach(dS -> {
             this.paymentGateway.makePayment(dS.getPrice(), dS.getPaymentMethodId());
-            dS.setForNextMonth();
+            dS.setForNextMonth(event.getDueDate());
             this.subscriptions.save(dS);
         });
         System.out.println("Processed " + dueSubscriptions.size() + " subscriptions.");

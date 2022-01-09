@@ -4,23 +4,23 @@ import esgi.pmanaois.cc.kernel.Entity;
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Subscription implements Entity<SubscriptionId> {
     final private SubscriptionId id;
-    final private Price price;
-    final private PaymentMethodId paymentMethodId;
-    final private String subscriberId;
+    private Price price;
+    private PaymentMethodId paymentMethodId;
+    private String subscriberId;
     private ZonedDateTime started;
     private ZonedDateTime dueDate;
+    final private List<SubscriptionEvent> events;
 
-    private Subscription(SubscriptionId id, Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started, ZonedDateTime dueDate) {
+
+    private Subscription(SubscriptionId id, List<SubscriptionEvent> events) {
         this.id = Objects.requireNonNull(id);
-        this.price = Objects.requireNonNull(price);
-        this.paymentMethodId = Objects.requireNonNull(paymentMethodId);
-        this.subscriberId = Objects.requireNonNull(subscriberId);
-        this.started = Objects.requireNonNull(started);
-        this.dueDate = Objects.requireNonNull(dueDate);
+        this.events = Objects.requireNonNull(events);
     }
 
     public Price getPrice() {
@@ -43,24 +43,63 @@ public class Subscription implements Entity<SubscriptionId> {
         return dueDate;
     }
 
-    public void setForNextMonth() {
-        this.started = this.dueDate;
-        this.dueDate = this.started.plusMonths(1);
+    public List<SubscriptionEvent> getEvents() { return this.events; }
+
+    public void setForNextMonth(ZonedDateTime newStarted) {
+        this.events.add(new SubscriptionContinued(newStarted, newStarted.plusMonths(1)));
+    }
+
+    public static Subscription init(SubscriptionId id) {
+        return new Subscription(id, new ArrayList<SubscriptionEvent>());
     }
 
     public static Subscription create(Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started) {
-        return new Subscription(
-                SubscriptionId.generate(),
-                price,
-                paymentMethodId,
+        List<SubscriptionEvent> events = new ArrayList<>();
+        events.add(new SubscriptionInitialized(
+                price.getValue(),
+                price.getCurrency(),
+                paymentMethodId.getValue(),
                 subscriberId,
                 started,
-                started.plusMonths(1)
-        );
+                started.plusMonths(1)));
+
+        return new Subscription(SubscriptionId.generate(), events);
     }
 
+    // needed for stubbing
     public static Subscription of(SubscriptionId id, Price price, PaymentMethodId paymentMethodId, String subscriberId, ZonedDateTime started, ZonedDateTime dueDate) {
-        return new Subscription(id, price, paymentMethodId, subscriberId, started, dueDate);
+        Subscription subscription = new Subscription(id, new ArrayList<SubscriptionEvent>());
+        subscription.price = price;
+        subscription.paymentMethodId = paymentMethodId;
+        subscription.subscriberId = subscriberId;
+        subscription.started = started;
+        subscription.dueDate = dueDate;
+        return subscription;
+    }
+
+    private void apply(SubscriptionInitialized event) {
+        this.price = Price.of(event.getPrice(), event.getCurrency());
+        this.paymentMethodId = PaymentMethodId.of(event.getPaymentMethodId());
+        this.subscriberId = event.getSubscriberId();
+        this.started = event.getStarted();
+        this.dueDate = event.getDueDate();
+    }
+
+    private void apply(SubscriptionContinued event) {
+        this.started = event.getStarted();
+        this.dueDate = event.getDueDate();
+    }
+
+    public void replay(List<SubscriptionEvent> events) {
+        for (SubscriptionEvent event : events) {
+            if (event instanceof SubscriptionInitialized) {
+                this.apply((SubscriptionInitialized) event);
+            }
+
+            if (event instanceof SubscriptionContinued) {
+                this.apply((SubscriptionContinued) event);
+            }
+        }
     }
 
     @Override
@@ -73,6 +112,6 @@ public class Subscription implements Entity<SubscriptionId> {
         if (this == o) return true;
         if (!(o instanceof Subscription)) return false;
         Subscription that = (Subscription) o;
-        return Objects.equals(id, that.id) && Objects.equals(price, that.price) && Objects.equals(paymentMethodId, that.paymentMethodId) && Objects.equals(subscriberId, that.subscriberId) && Objects.equals(started, that.started) && Objects.equals(dueDate, that.dueDate);
+        return Objects.equals(id, that.id);
     }
 }

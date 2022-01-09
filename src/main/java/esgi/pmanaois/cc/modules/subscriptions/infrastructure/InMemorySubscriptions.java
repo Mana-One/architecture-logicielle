@@ -1,23 +1,28 @@
 package esgi.pmanaois.cc.modules.subscriptions.infrastructure;
 
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
-import esgi.pmanaois.cc.modules.subscriptions.domain.Price;
-import esgi.pmanaois.cc.modules.subscriptions.domain.Subscription;
-import esgi.pmanaois.cc.modules.subscriptions.domain.SubscriptionId;
-import esgi.pmanaois.cc.modules.subscriptions.domain.Subscriptions;
+import esgi.pmanaois.cc.modules.subscriptions.domain.*;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 final public class InMemorySubscriptions implements Subscriptions {
-    final private Map<SubscriptionId, Subscription> data = new ConcurrentHashMap<>();
+    final private Map<SubscriptionId, List<SubscriptionEvent>> data = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Subscription> findById(SubscriptionId id) {
-        return Optional.ofNullable(this.data.get(id));
+        List<SubscriptionEvent> events = this.data.get(id);
+        if (events == null) {
+            return Optional.empty();
+        }
+
+        Subscription subscription = Subscription.init(id);
+        subscription.replay(events);
+        return Optional.of(subscription);
     }
 
     @Override
@@ -27,7 +32,12 @@ final public class InMemorySubscriptions implements Subscriptions {
 
     @Override
     public void save(Subscription subscription) {
-        this.data.put(subscription.getId(), subscription);
+        List<SubscriptionEvent> events = this.data.get(subscription.getId());
+        if (events != null) {
+            events.addAll(subscription.getEvents());
+            return;
+        }
+        this.data.put(subscription.getId(), subscription.getEvents());
     }
 
     @Override

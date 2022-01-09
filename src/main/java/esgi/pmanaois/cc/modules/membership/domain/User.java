@@ -102,6 +102,6 @@ final public class User implements Entity<UserId> {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return isVerified == user.isVerified && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && role == user.role && Objects.equals(paymentMethodId, user.paymentMethodId);
+        return Objects.equals(id, user.id);
     }
 }
