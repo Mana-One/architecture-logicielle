@@ -36,8 +36,8 @@ public class RegisterUserHandler implements CommandHandler<RegisterUser, Void> {
         this.users.save(user);
         this.eventDispatcher.dispatch(new UserRegistered(
                 user.getId().getValue().toString(),
-                user.getRole().getName(),
-                user.getPaymentMethodId().getValue()));
+                command.role,
+                command.paymentMethodId));
         return null;
     }
 }

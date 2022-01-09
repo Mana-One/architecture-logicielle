@@ -32,6 +32,10 @@ final public class Name {
         return Optional.of(new Name(first, last));
     }
 
+    public static Name of(String first, String last) {
+        return new Name(first, last);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
