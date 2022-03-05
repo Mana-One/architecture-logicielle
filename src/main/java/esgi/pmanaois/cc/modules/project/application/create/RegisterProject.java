@@ -1,7 +1,7 @@
-package fr.al_cc2.application.project.create;
+package esgi.pmanaois.cc.modules.project.application.create;
 
-import fr.al_cc2.domain.model.Owner;
-import fr.al_cc2.kernel.command.Command;
+import esgi.pmanaois.cc.kernel.Command;
+import esgi.pmanaois.cc.modules.project.domain.model.Owner;
 
 import java.time.LocalDate;
 

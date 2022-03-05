@@ -1,10 +1,13 @@
-package fr.al_cc2.application.project.create;
+package esgi.pmanaois.cc.modules.project.application.create;
 
-import fr.al_cc2.domain.model.*;
-import fr.al_cc2.domain.repository.ProjectRepository;
-import fr.al_cc2.kernel.command.CommandHandler;
-import fr.al_cc2.kernel.event.Event;
-import fr.al_cc2.kernel.event.EventDispatcher;
+
+import esgi.pmanaois.cc.kernel.CommandHandler;
+import esgi.pmanaois.cc.kernel.Event;
+import esgi.pmanaois.cc.kernel.EventDispatcher;
+import esgi.pmanaois.cc.modules.project.domain.model.Owner;
+import esgi.pmanaois.cc.modules.project.domain.model.Project;
+import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
+import esgi.pmanaois.cc.modules.project.domain.repository.ProjectRepository;
 
 public class CreateProjectCommandHandler implements CommandHandler<CreateProject, ProjectId> {
 
