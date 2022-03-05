@@ -1,6 +1,7 @@
 package esgi.pmanaois.cc.modules.subscriptions.infrastructure;
 
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
+import esgi.pmanaois.cc.modules.common.Price;
 import esgi.pmanaois.cc.modules.subscriptions.domain.*;
 
 import java.time.ZonedDateTime;
