@@ -12,7 +12,7 @@ import esgi.pmanaois.cc.modules.payments.domain.PaymentId;
 import esgi.pmanaois.cc.modules.payments.domain.PaymentStatus;
 import esgi.pmanaois.cc.modules.payments.domain.Payments;
 
-public class SimplePayments implements Payments {
+public class InMemoryPayments implements Payments {
     final private Map<PaymentId, Payment> data = new HashMap<>();
 
     @Override
