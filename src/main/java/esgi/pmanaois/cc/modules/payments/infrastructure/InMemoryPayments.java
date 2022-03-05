@@ -1,10 +1,10 @@
 package esgi.pmanaois.cc.modules.payments.infrastructure;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import esgi.pmanaois.cc.modules.common.Price;
 import esgi.pmanaois.cc.modules.payments.domain.Payment;
@@ -13,7 +13,7 @@ import esgi.pmanaois.cc.modules.payments.domain.PaymentStatus;
 import esgi.pmanaois.cc.modules.payments.domain.Payments;
 
 public class InMemoryPayments implements Payments {
-    final private Map<PaymentId, Payment> data = new HashMap<>();
+    final private Map<PaymentId, Payment> data = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Payment> findById(PaymentId id) {
