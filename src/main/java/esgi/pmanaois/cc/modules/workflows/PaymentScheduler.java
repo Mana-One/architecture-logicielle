@@ -29,6 +29,5 @@ final public class PaymentScheduler {
     @Scheduled(initialDelay = 6000L, fixedRate = 60 * 1000L)
     public void initiateProjectPayments() {
         this.dispatcher.dispatch(new ProjectPaymentsInitiated(this.clock.now()));
-        System.out.println("Project payments initiated.");
     }
 }
