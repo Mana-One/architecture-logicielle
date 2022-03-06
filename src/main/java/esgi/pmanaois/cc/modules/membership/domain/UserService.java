@@ -1,8 +1,7 @@
-package esgi.pmanaois.cc.modules.membership.application;
+package esgi.pmanaois.cc.modules.membership.domain;
 
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
 import esgi.pmanaois.cc.modules.common.PaymentMethodIdValidationEngine;
-import esgi.pmanaois.cc.modules.membership.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
