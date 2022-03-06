@@ -1,6 +1,6 @@
 package esgi.pmanaois.cc.modules.project.exposition;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @SuppressWarnings("all")
 public class ProjectResponse {
@@ -9,10 +9,10 @@ public class ProjectResponse {
     public String name;
     public String owner;
     public String status;
-    public LocalDate startDate;
-    public LocalDate endDate;
+    public ZonedDateTime startDate;
+    public ZonedDateTime endDate;
 
-    public ProjectResponse(String id, String name, String owner, String status, LocalDate startDate, LocalDate endDate) {
+    public ProjectResponse(String id, String name, String owner, String status, ZonedDateTime startDate, ZonedDateTime endDate) {
         this.id = id;
         this.name = name;
         this.owner = owner;

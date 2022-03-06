@@ -2,7 +2,7 @@ package esgi.pmanaois.cc.modules.project.application.close;
 
 import esgi.pmanaois.cc.kernel.CommandHandler;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
-import esgi.pmanaois.cc.modules.project.application.ProjectService;
+import esgi.pmanaois.cc.modules.project.domain.ProjectService;
 import esgi.pmanaois.cc.modules.project.domain.Projects;
 import esgi.pmanaois.cc.modules.project.domain.model.Project;
 

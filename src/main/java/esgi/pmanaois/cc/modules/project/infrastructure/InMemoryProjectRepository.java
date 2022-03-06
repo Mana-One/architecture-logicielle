@@ -5,7 +5,9 @@ import esgi.pmanaois.cc.modules.project.domain.Projects;
 import esgi.pmanaois.cc.modules.project.domain.model.Project;
 import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,5 +29,10 @@ public class InMemoryProjectRepository implements Projects {
     @Override
     public void save(Project project) {
         this.data.put(project.getId(), project);
+    }
+
+    @Override
+    public List<Project> list() {
+        return new ArrayList<Project>(this.data.values());
     }
 }

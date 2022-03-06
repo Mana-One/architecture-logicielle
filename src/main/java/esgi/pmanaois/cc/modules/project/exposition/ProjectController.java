@@ -2,11 +2,15 @@ package esgi.pmanaois.cc.modules.project.exposition;
 
 import esgi.pmanaois.cc.kernel.Command;
 import esgi.pmanaois.cc.kernel.CommandBus;
+import esgi.pmanaois.cc.kernel.Query;
+import esgi.pmanaois.cc.kernel.QueryBus;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProject;
 import esgi.pmanaois.cc.modules.project.application.create.RegisterProject;
+import esgi.pmanaois.cc.modules.project.application.list.ListProjects;
 import esgi.pmanaois.cc.modules.project.domain.InvalidProjectState;
 import esgi.pmanaois.cc.modules.project.domain.NoSuchProject;
 import esgi.pmanaois.cc.modules.project.domain.model.Owner;
+import esgi.pmanaois.cc.modules.project.domain.model.Project;
 import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,15 +21,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 public class ProjectController {
     private final CommandBus<Command, Void> commandBus;
+    private final QueryBus<ListProjects, List<Project>> queryBus;
 
-    public ProjectController(CommandBus<Command, Void> commandBus) {
+    public ProjectController(CommandBus<Command, Void> commandBus, QueryBus<ListProjects, List<Project>> queryBus) {
         this.commandBus = Objects.requireNonNull(commandBus);
+        this.queryBus = Objects.requireNonNull(queryBus);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -36,7 +44,24 @@ public class ProjectController {
         return null;
     }
 
-    @PutMapping(path = "/projects/{projectId}/close")
+    @GetMapping("/projects")
+    public ResponseEntity<ProjectsResponse> list() {
+        List<ProjectResponse> response = this.queryBus
+            .send(new ListProjects())
+            .stream()
+            .map(p -> new ProjectResponse(
+                p.getId().getValue().toString(), 
+                p.getName(), 
+                p.getOwner().getValue().toString(), 
+                p.getStatus().toString(), 
+                p.getStartDate(), 
+                p.getEndDate())
+            ).collect(Collectors.toList()
+        );
+        return ResponseEntity.ok(new ProjectsResponse(response));
+    }
+
+    @PatchMapping(path = "/projects/{projectId}/close")
     public ResponseEntity<Void> close(@PathVariable("projectId") String projectId) {
         CloseProject closeProject = new CloseProject(ProjectId.fromString(projectId));
         commandBus.send(closeProject);

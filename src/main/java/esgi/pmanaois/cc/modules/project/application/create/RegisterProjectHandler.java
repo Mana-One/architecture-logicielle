@@ -5,7 +5,7 @@ import esgi.pmanaois.cc.kernel.CommandHandler;
 import esgi.pmanaois.cc.kernel.Event;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
 import esgi.pmanaois.cc.modules.common.ProjectRegistered;
-import esgi.pmanaois.cc.modules.project.application.ProjectService;
+import esgi.pmanaois.cc.modules.project.domain.ProjectService;
 import esgi.pmanaois.cc.modules.project.domain.Projects;
 import esgi.pmanaois.cc.modules.project.domain.model.*;
 
