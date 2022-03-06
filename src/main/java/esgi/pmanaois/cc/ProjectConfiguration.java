@@ -1,27 +1,28 @@
 package esgi.pmanaois.cc;
 
 
-import esgi.pmanaois.cc.kernel.*;
-import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
-import esgi.pmanaois.cc.modules.membership.application.UserService;
-import esgi.pmanaois.cc.modules.project.application.create.*;
+import esgi.pmanaois.cc.kernel.CommandBus;
+import esgi.pmanaois.cc.kernel.EventDispatcher;
+import esgi.pmanaois.cc.modules.project.application.ProjectService;
+import esgi.pmanaois.cc.modules.project.application.close.CloseProject;
+import esgi.pmanaois.cc.modules.project.application.close.CloseProjectHandler;
+import esgi.pmanaois.cc.modules.project.application.close.ProjectClosed;
+import esgi.pmanaois.cc.modules.project.application.close.ProjectClosedEventListener;
+import esgi.pmanaois.cc.modules.project.application.create.RegisterProject;
+import esgi.pmanaois.cc.modules.project.application.create.RegisterProjectHandler;
 import esgi.pmanaois.cc.modules.project.domain.OwnerValidationEngine;
 import esgi.pmanaois.cc.modules.project.domain.Projects;
-import esgi.pmanaois.cc.modules.project.domain.model.Project;
-import esgi.pmanaois.cc.modules.project.domain.repository.ProjectRepository;
 import esgi.pmanaois.cc.modules.project.infrastructure.InMemoryProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Configuration
 public class ProjectConfiguration {
-    @Autowired KernelConfiguration kernelConfiguration;
-    @Autowired CommonConfiguration commonConfiguration;
+    @Autowired
+    KernelConfiguration kernelConfiguration;
+    @Autowired
+    CommonConfiguration commonConfiguration;
 
     @Bean
     public Projects projectRepository() {
@@ -29,13 +30,13 @@ public class ProjectConfiguration {
     }
 
     @Bean
-    public OwnerValidationEngine ownerValidationEngine(){
+    public OwnerValidationEngine ownerValidationEngine() {
         return new OwnerValidationEngine();
     }
 
     @Bean
-    public ProjectService projectService(){
-        return new ProjectService(ownerValidationEngine());
+    public ProjectService projectService() {
+        return new ProjectService(ownerValidationEngine(), projectRepository(), kernelConfiguration.clock());
     }
 
     @Bean
@@ -44,9 +45,23 @@ public class ProjectConfiguration {
     }
 
     @Bean
+    public CloseProjectHandler closeProjectHandler() {
+        return new CloseProjectHandler(projectRepository(), projectService(), kernelConfiguration.eventDispatcher());
+    }
+
+    @Bean
     public CommandBus projectCommandBus() {
         final CommandBus commandBus = kernelConfiguration.commandBus();
         commandBus.addHandler(RegisterProject.class, registerProjectHandler());
+        commandBus.addHandler(CloseProject.class, closeProjectHandler());
         return commandBus;
+    }
+
+    @Bean
+    public ProjectClosedEventListener projectClosedEventListener() {
+        EventDispatcher dispatcher = kernelConfiguration.eventDispatcher();
+        ProjectClosedEventListener listener = new ProjectClosedEventListener();
+        dispatcher.addListener(ProjectClosed.class, listener);
+        return listener;
     }
 }
