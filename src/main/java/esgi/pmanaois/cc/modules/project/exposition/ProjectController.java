@@ -1,15 +1,12 @@
 package esgi.pmanaois.cc.modules.project.exposition;
 
-import esgi.pmanaois.cc.kernel.Command;
 import esgi.pmanaois.cc.kernel.CommandBus;
-import esgi.pmanaois.cc.kernel.Query;
 import esgi.pmanaois.cc.kernel.QueryBus;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProject;
 import esgi.pmanaois.cc.modules.project.application.create.RegisterProject;
 import esgi.pmanaois.cc.modules.project.application.list.ListProjects;
 import esgi.pmanaois.cc.modules.project.domain.InvalidProjectState;
 import esgi.pmanaois.cc.modules.project.domain.NoSuchProject;
-import esgi.pmanaois.cc.modules.project.domain.model.Owner;
 import esgi.pmanaois.cc.modules.project.domain.model.Project;
 import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +36,18 @@ public class ProjectController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/projects", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(@RequestBody @Valid ProjectRequest request) {
+    public ResponseEntity<ProjectResponse> create(@RequestBody @Valid ProjectRequest request) {
         RegisterProject registerProject = new RegisterProject(request.name, request.owner, request.requiredSkills);
-        commandBus.send(registerProject);
-        return null;
+        Project project = commandBus.send(registerProject);
+        return ResponseEntity.ok(new ProjectResponse(
+            project.getId().toString(), 
+            project.getName(), 
+            project.getOwner().getValue().toString(), 
+            project.getStatus().toString(), 
+            project.getRequiredSkills(),
+            project.getStartDate(), 
+            project.getEndDate()
+        ));
     }
 
     @GetMapping("/projects")
@@ -55,6 +59,7 @@ public class ProjectController {
                 p.getName(), 
                 p.getOwner().getValue().toString(), 
                 p.getStatus().toString(), 
+                p.getRequiredSkills(),
                 p.getStartDate(), 
                 p.getEndDate())
             ).collect(Collectors.toList()

@@ -11,7 +11,7 @@ import esgi.pmanaois.cc.modules.project.domain.model.*;
 
 import java.util.Objects;
 
-public class RegisterProjectHandler implements CommandHandler<RegisterProject, ProjectId> {
+public class RegisterProjectHandler implements CommandHandler<RegisterProject, Project> {
 
     final private Projects projects;
     final private ProjectService projectService;
@@ -29,7 +29,7 @@ public class RegisterProjectHandler implements CommandHandler<RegisterProject, P
 
 
     @Override
-    public ProjectId handle(RegisterProject command) {
+    public Project handle(RegisterProject command) {
         final Project project = this.projectService.create(
                 command.name,
                 command.owner,
@@ -41,6 +41,6 @@ public class RegisterProjectHandler implements CommandHandler<RegisterProject, P
             command.owner
         ));
 
-        return null;
+        return project;
     }
 }
