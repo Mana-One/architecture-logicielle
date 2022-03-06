@@ -1,7 +1,6 @@
 package esgi.pmanaois.cc.modules.project.domain.model;
 
 import esgi.pmanaois.cc.kernel.UniqueId;
-import esgi.pmanaois.cc.modules.membership.domain.UserId;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -11,6 +10,10 @@ public final class ProjectId implements UniqueId {
 
     private ProjectId(UUID value) {
         this.value = Objects.requireNonNull(value);
+    }
+
+    public static ProjectId fromString(String projectId) {
+        return new ProjectId(UUID.fromString(projectId));
     }
 
     public UUID getValue() {
@@ -25,10 +28,14 @@ public final class ProjectId implements UniqueId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ProjectId projectId = (ProjectId) o;
-        return value == projectId.value;
+
+        return Objects.equals(value, projectId.value);
     }
 
     @Override
-    public int hashCode() { return Objects.hash(value); }
+    public int hashCode() {
+        return value.hashCode();
+    }
 }

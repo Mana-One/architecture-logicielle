@@ -1,20 +1,16 @@
 package esgi.pmanaois.cc.modules.project.domain.model;
 
 import esgi.pmanaois.cc.kernel.Entity;
-import esgi.pmanaois.cc.modules.membership.domain.*;
-import esgi.pmanaois.cc.modules.membership.domain.UserId;
 import esgi.pmanaois.cc.modules.project.domain.Status;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 final public class Project implements Entity<ProjectId> {
     private final ProjectId id;
     private final String name;
     private final Owner owner;
-    private final Status status;
+    private Status status;
     private final LocalDate startDate;
     private LocalDate endDate;
 
@@ -30,9 +26,13 @@ final public class Project implements Entity<ProjectId> {
         return new Project(ProjectId.generate(), name, owner, status);
     }
 
-    public ProjectId getId() { return id; }
+    public ProjectId getId() {
+        return id;
+    }
 
-    public ProjectId id() { return null; }
+    public ProjectId id() {
+        return null;
+    }
 
     public String getName() {
         return name;
@@ -52,6 +52,14 @@ final public class Project implements Entity<ProjectId> {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
