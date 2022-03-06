@@ -3,13 +3,17 @@ package esgi.pmanaois.cc;
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
 import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
+import esgi.pmanaois.cc.modules.common.WorkerAssigned;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
 import esgi.pmanaois.cc.modules.membership.application.SubscriptionCreatedListener;
+import esgi.pmanaois.cc.modules.membership.application.WorkerAssignedListener;
 import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
 import esgi.pmanaois.cc.modules.membership.domain.UserService;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 import esgi.pmanaois.cc.modules.membership.infrastructure.InMemoryUsers;
+import esgi.pmanaois.cc.modules.project.domain.model.Worker;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +35,7 @@ public class MembershipConfiguration {
 
     @Bean
     public UserService userService() {
-        return new UserService(emailValidationEngine(), this.commonConfiguration.paymentMethodIdValidationEngine());
+        return new UserService(emailValidationEngine(), this.commonConfiguration.paymentMethodIdValidationEngine(), users());
     }
 
     @Bean
@@ -53,6 +57,14 @@ public class MembershipConfiguration {
         SubscriptionCreatedListener listener = new SubscriptionCreatedListener(users());
         dispatcher.addListener(SubscriptionCreated.class, listener);
 
+        return listener;
+    }
+
+    @Bean
+    public WorkerAssignedListener membershipWorkerAssignedListener() {
+        EventDispatcher dispatcher = this.kernelConfiguration.eventDispatcher();
+        WorkerAssignedListener listener = new WorkerAssignedListener(userService());
+        dispatcher.addListener(WorkerAssigned.class, listener);
         return listener;
     }
 }

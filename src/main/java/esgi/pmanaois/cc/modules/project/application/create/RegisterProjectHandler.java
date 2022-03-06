@@ -8,7 +8,7 @@ import esgi.pmanaois.cc.modules.project.domain.model.*;
 
 import java.util.Objects;
 
-public class RegisterProjectHandler implements CommandHandler<RegisterProject, Project> {
+public class RegisterProjectHandler implements CommandHandler<RegisterProject, Void> {
 
     final private Projects projects;
     final private ProjectService projectService;
@@ -23,13 +23,13 @@ public class RegisterProjectHandler implements CommandHandler<RegisterProject, P
 
 
     @Override
-    public Project handle(RegisterProject command) {
+    public Void handle(RegisterProject command) {
         final Project project = this.projectService.create(
                 command.name,
                 command.owner,
                 command.requiredSkills);
 
         this.projects.save(project);
-        return project;
+        return null;
     }
 }

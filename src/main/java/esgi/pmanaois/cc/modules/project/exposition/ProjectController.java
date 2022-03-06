@@ -9,7 +9,6 @@ import esgi.pmanaois.cc.modules.project.application.list.ListProjects;
 import esgi.pmanaois.cc.modules.project.domain.InvalidProjectState;
 import esgi.pmanaois.cc.modules.project.domain.NoSuchProject;
 import esgi.pmanaois.cc.modules.project.domain.model.Project;
-import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,17 +38,8 @@ public class ProjectController {
     @PostMapping(path = "/projects", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProjectResponse> create(@RequestBody @Valid ProjectRequest request) {
         RegisterProject registerProject = new RegisterProject(request.name, request.owner, request.requiredSkills);
-        Project project = commandBus.send(registerProject);
-        return ResponseEntity.ok(new ProjectResponse(
-            project.getId().getValue().toString(), 
-            project.getName(), 
-            project.getOwner().getValue().toString(), 
-            project.getStatus().toString(), 
-            project.getRequiredSkills(),
-            project.getWorkers().stream().map(w -> w.getValue().toString()).collect(Collectors.toList()),
-            project.getStartDate(), 
-            project.getEndDate()
-        ));
+        commandBus.send(registerProject);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/projects")

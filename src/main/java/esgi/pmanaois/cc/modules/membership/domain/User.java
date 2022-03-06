@@ -36,6 +36,10 @@ final public class User implements Entity<UserId> {
         this.isVerified = true;
     }
 
+    public void markAsAssigned() {
+        this.status = UserStatus.ASSIGNED;
+    }
+
     public static User create(Name name, String email, Role role, PaymentMethodId paymentMethodId) {
         return new User(UserId.generate(), name, email, role, UserStatus.AVAILABLE, paymentMethodId, false);
     }

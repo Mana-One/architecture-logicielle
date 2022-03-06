@@ -11,13 +11,16 @@ import java.util.Optional;
 final public class UserService {
     final private EmailValidationEngine emailValidationEngine;
     final private PaymentMethodIdValidationEngine paymentMethodIdValidationEngine;
+    final private Users users;
 
     public UserService(
             EmailValidationEngine emailValidationEngine,
-            PaymentMethodIdValidationEngine paymentMethodIdValidationEngine
+            PaymentMethodIdValidationEngine paymentMethodIdValidationEngine,
+            Users users
     ) {
         this.emailValidationEngine = Objects.requireNonNull(emailValidationEngine);
         this.paymentMethodIdValidationEngine = Objects.requireNonNull(paymentMethodIdValidationEngine);
+        this.users = Objects.requireNonNull(users);
     }
 
     public User create(
@@ -55,5 +58,20 @@ final public class UserService {
         }
 
         return User.create(optName.get(), email, optRole.get(), optPaymentMethodId.get());
+    }
+
+    public void markAsAssigned(String userId) {
+        Optional<UserId> optId = UserId.fromString(userId);
+        if (optId.isEmpty()) {
+            throw new InvalidUserState("Invalid user id.");
+        }
+
+        Optional<User> user = this.users.findById(optId.get());
+        if (user.isEmpty()) {
+            throw new InvalidUserState("User not found");
+        }
+
+        user.get().markAsAssigned();
+        this.users.save(user.get());
     }
 }
