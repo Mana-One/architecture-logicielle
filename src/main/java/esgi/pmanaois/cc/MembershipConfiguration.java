@@ -2,8 +2,11 @@ package esgi.pmanaois.cc;
 
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
+import esgi.pmanaois.cc.kernel.QueryBus;
 import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
 import esgi.pmanaois.cc.modules.common.WorkerAssigned;
+import esgi.pmanaois.cc.modules.membership.application.ListUsers;
+import esgi.pmanaois.cc.modules.membership.application.ListUsersHandler;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
 import esgi.pmanaois.cc.modules.membership.application.SubscriptionCreatedListener;
@@ -12,7 +15,6 @@ import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
 import esgi.pmanaois.cc.modules.membership.domain.UserService;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 import esgi.pmanaois.cc.modules.membership.infrastructure.InMemoryUsers;
-import esgi.pmanaois.cc.modules.project.domain.model.Worker;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +41,11 @@ public class MembershipConfiguration {
     }
 
     @Bean
+    public ListUsersHandler listUsersHandler() {
+        return new ListUsersHandler(users());
+    }
+
+    @Bean
     public RegisterUserHandler registerUserHandler() {
         EventDispatcher dispatcher = kernelConfiguration.eventDispatcher();
         return new RegisterUserHandler(users(),userService(), dispatcher);
@@ -49,6 +56,13 @@ public class MembershipConfiguration {
         final CommandBus commandBus = kernelConfiguration.commandBus();
         commandBus.addHandler(RegisterUser.class, registerUserHandler());
         return commandBus;
+    }
+
+    @Bean
+    public QueryBus membershipQueryBus() {
+        final QueryBus queryBus = kernelConfiguration.queryBus();
+        queryBus.addHandler(ListUsers.class, listUsersHandler());
+        return queryBus;
     }
 
     @Bean
