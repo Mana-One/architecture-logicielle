@@ -2,24 +2,24 @@ package esgi.pmanaois.cc.kernel;
 
 import java.util.Map;
 
-public class DefaultQueryBus<TQuery extends Query, R> implements QueryBus<TQuery, R> {
-    private final Map<Class<TQuery>, QueryHandler> handlers;
+public class DefaultQueryBus implements QueryBus {
+    private final Map<Class<? extends Query>, QueryHandler> handlers;
     
-    public DefaultQueryBus(Map<Class<TQuery>, QueryHandler> dataMap) {
-        this.handlers = dataMap;
+    public DefaultQueryBus(Map<Class<? extends Query>, QueryHandler> handlers) {
+        this.handlers = handlers;
     }
 
     @Override
-    public void addHandler(Class<TQuery> queryC, QueryHandler handler) {
-        this.handlers.putIfAbsent(queryC, handler);
+    public <TQuery extends Query, R> void addHandler(Class<TQuery> queryC, QueryHandler<TQuery, R> handler) {
+        handlers.putIfAbsent(queryC, handler);        
     }
 
     @Override
-    public R send(TQuery query) {
+    public <TQuery extends Query, R> R send(TQuery query) {
         return dispatch(query);
     }
 
-    private R dispatch(TQuery query) {
+    private <Q extends Query, R> R dispatch(Q query) {
         final QueryHandler queryHandler = handlers.get(query.getClass());
         if (queryHandler == null) {
             throw new RuntimeException("No such query handler for " + query.getClass().getName());

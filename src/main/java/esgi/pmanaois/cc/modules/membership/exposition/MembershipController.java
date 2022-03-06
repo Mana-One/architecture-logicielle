@@ -18,9 +18,9 @@ import java.util.Objects;
 
 @RestController
 public class MembershipController {
-    final private CommandBus<Command, Void> commandBus;
+    final private CommandBus commandBus;
 
-    public MembershipController(CommandBus<Command, Void> commandBus) {
+    public MembershipController(CommandBus commandBus) {
         this.commandBus = Objects.requireNonNull(commandBus);
     }
 

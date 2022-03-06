@@ -20,6 +20,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +30,10 @@ import java.util.stream.Collectors;
 
 @RestController
 public class ProjectController {
-    private final CommandBus<Command, Void> commandBus;
-    private final QueryBus<ListProjects, List<Project>> queryBus;
+    private final CommandBus commandBus;
+    private final QueryBus queryBus;
 
-    public ProjectController(CommandBus<Command, Void> commandBus, QueryBus<ListProjects, List<Project>> queryBus) {
+    public ProjectController(CommandBus commandBus, QueryBus queryBus) {
         this.commandBus = Objects.requireNonNull(commandBus);
         this.queryBus = Objects.requireNonNull(queryBus);
     }
@@ -46,9 +48,8 @@ public class ProjectController {
 
     @GetMapping("/projects")
     public ResponseEntity<ProjectsResponse> list() {
-        List<ProjectResponse> response = this.queryBus
-            .send(new ListProjects())
-            .stream()
+        List<Project> projects = this.queryBus.send(new ListProjects());
+        List<ProjectResponse> response = projects.stream()
             .map(p -> new ProjectResponse(
                 p.getId().getValue().toString(), 
                 p.getName(), 
