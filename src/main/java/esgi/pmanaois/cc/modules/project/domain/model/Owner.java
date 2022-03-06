@@ -1,13 +1,31 @@
 package esgi.pmanaois.cc.modules.project.domain.model;
 
-public class Owner {
-    private final String name;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
-    public Owner(String name) {
-        this.name = name;
+import esgi.pmanaois.cc.kernel.UniqueId;
+
+public class Owner implements UniqueId {
+    private final UUID value;
+
+    private Owner(UUID value) {
+        this.value = Objects.requireNonNull(value);
     }
 
-    public String getName() {
-        return name;
+    public static Optional<Owner> fromString(String value) {
+        try {
+            return Optional.of(new Owner(UUID.fromString(value)));
+        } catch(Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public static Owner of(UUID uid) {
+        return new Owner(uid);
+    }
+
+    public UUID getValue() {
+        return this.value;
     }
 }

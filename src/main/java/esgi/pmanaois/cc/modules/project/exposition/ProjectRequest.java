@@ -1,8 +1,9 @@
 package esgi.pmanaois.cc.modules.project.exposition;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 public class ProjectRequest {
     @NotNull
@@ -14,12 +15,5 @@ public class ProjectRequest {
     public String owner;
 
     @NotNull
-    @NotBlank
-    public String status;
-
-    @NotNull
-    public LocalDate startDate;
-
-    public LocalDate endDate;
-
+    public List<String> requiredSkills;
 }

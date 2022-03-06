@@ -1,28 +1,21 @@
 package esgi.pmanaois.cc.modules.common;
 
 import esgi.pmanaois.cc.kernel.ApplicationEvent;
-import esgi.pmanaois.cc.modules.project.domain.model.Owner;
 
 final public class ProjectRegistered implements ApplicationEvent {
-    private final String ProjectId;
-    private final Owner Owner;
-    private final String status;
+    private final String projectId;
+    private final String owner;
 
-    public ProjectRegistered(String projectId, Owner owner, String status) {
-        ProjectId = projectId;
-        Owner = owner;
-        this.status = status;
+    public ProjectRegistered(String projectId, String owner) {
+        this.projectId = projectId;
+        this.owner = owner;
     }
 
     public String getProjectId() {
-        return ProjectId;
+        return projectId;
     }
 
-    public Owner getOwner() {
-        return Owner;
-    }
-
-    public String getStatus() {
-        return status;
+    public String getOwner() {
+        return owner;
     }
 }

@@ -1,5 +1,6 @@
 package esgi.pmanaois.cc.modules.membership.exposition;
 
+import esgi.pmanaois.cc.kernel.Command;
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.modules.membership.domain.InvalidUserState;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
@@ -17,12 +18,13 @@ import java.util.Objects;
 
 @RestController
 public class MembershipController {
-    final private CommandBus commandBus;
+    final private CommandBus<Command, Void> commandBus;
 
-    public MembershipController(CommandBus commandBus) {
+    public MembershipController(CommandBus<Command, Void> commandBus) {
         this.commandBus = Objects.requireNonNull(commandBus);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/membership", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> registerUser(@RequestBody @Valid CreateUserRequest request) {
         RegisterUser registerUser = new RegisterUser(

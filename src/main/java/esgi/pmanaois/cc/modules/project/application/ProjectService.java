@@ -24,7 +24,7 @@ final public class ProjectService {
         this.clock = clock;
     }
 
-    public Project create(String name, Owner owner, String status) throws InvalidProjectState {
+    public Project create(String name, String owner, List<String> requiredSkills) throws InvalidProjectState {
 
         final List<String> errors = new ArrayList<>();
 
@@ -33,21 +33,16 @@ final public class ProjectService {
             errors.add("Invalid name.");
         }
 
-        final Optional<Owner> optOwner = ownerValidationEngine.validate(owner);
-        if (optOwner.isEmpty()) {
+        final Optional<Owner> optOwner = Owner.fromString(owner);
+        if (optOwner.isEmpty() || ownerValidationEngine.validate(optOwner.get()).isEmpty()) {
             errors.add("Invalid owner.");
-        }
-
-        final Optional<Status> optStatus = Status.fromString(status);
-        if (optStatus.isEmpty()) {
-            errors.add("Invalid status.");
         }
 
         if (!errors.isEmpty()) {
             throw InvalidProjectState.fromMessages(errors);
         }
 
-        return Project.create(name, owner, optStatus.get());
+        return Project.create(name, optOwner.get(), requiredSkills, clock.now());
     }
 
     public Project retrieveProject(ProjectId projectId) {
@@ -57,7 +52,7 @@ final public class ProjectService {
     }
 
     public void closeProject(Project project) {
-        project.setEndDate(clock.now().toLocalDate());
+        project.setEndDate(clock.now());
         project.setStatus(Status.DONE);
     }
 }

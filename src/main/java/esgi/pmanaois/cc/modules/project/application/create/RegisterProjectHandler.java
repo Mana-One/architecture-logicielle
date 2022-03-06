@@ -15,7 +15,7 @@ public class RegisterProjectHandler implements CommandHandler<RegisterProject, P
 
     final private Projects projects;
     final private ProjectService projectService;
-    final private EventDispatcher eventDispatcher;
+    final private EventDispatcher<Event> eventDispatcher;
 
     public RegisterProjectHandler(
             Projects projects,
@@ -33,13 +33,13 @@ public class RegisterProjectHandler implements CommandHandler<RegisterProject, P
         final Project project = this.projectService.create(
                 command.name,
                 command.owner,
-                command.status);
+                command.requiredSkills);
 
         this.projects.save(project);
         this.eventDispatcher.dispatch(new ProjectRegistered(
-                project.getId().getValue().toString(),
-                command.owner,
-                command.status));
+            project.getId().getValue().toString(),
+            command.owner
+        ));
 
         return null;
     }

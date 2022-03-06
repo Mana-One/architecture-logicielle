@@ -1,9 +1,11 @@
 package esgi.pmanaois.cc.modules.project.exposition;
 
+import esgi.pmanaois.cc.kernel.Command;
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProject;
 import esgi.pmanaois.cc.modules.project.application.create.RegisterProject;
 import esgi.pmanaois.cc.modules.project.domain.InvalidProjectState;
+import esgi.pmanaois.cc.modules.project.domain.NoSuchProject;
 import esgi.pmanaois.cc.modules.project.domain.model.Owner;
 import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 import org.springframework.http.HttpStatus;
@@ -20,22 +22,23 @@ import java.util.Objects;
 
 @RestController
 public class ProjectController {
-    private final CommandBus commandBus;
+    private final CommandBus<Command, Void> commandBus;
 
-    public ProjectController(CommandBus commandBus) {
+    public ProjectController(CommandBus<Command, Void> commandBus) {
         this.commandBus = Objects.requireNonNull(commandBus);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/projects", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody @Valid ProjectRequest request) {
-        RegisterProject registerProject = new RegisterProject(request.name, new Owner(request.owner), request.status, request.startDate, request.endDate);
+        RegisterProject registerProject = new RegisterProject(request.name, request.owner, request.requiredSkills);
         commandBus.send(registerProject);
         return null;
     }
 
-    @PostMapping(path = "/projects/close", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> close(@RequestBody @Valid CloseProjectRequest request) {
-        CloseProject closeProject = new CloseProject(ProjectId.fromString(request.projectId));
+    @PutMapping(path = "/projects/{projectId}/close")
+    public ResponseEntity<Void> close(@PathVariable("projectId") String projectId) {
+        CloseProject closeProject = new CloseProject(ProjectId.fromString(projectId));
         commandBus.send(closeProject);
         return ResponseEntity.ok().build();
     }
@@ -58,6 +61,14 @@ public class ProjectController {
     public Map<String, String> handleInvalidProjectException(InvalidProjectState invalidProjectState) {
         final Map<String, String> error = new HashMap<>();
         error.put("message", invalidProjectState.getMessage());
+        return error;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchProject.class)
+    public Map<String, String> handleNoSuchProjectException(NoSuchProject ex) {
+        final Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getMessage());
         return error;
     }
 }
