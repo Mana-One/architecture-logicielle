@@ -2,14 +2,11 @@ package esgi.pmanaois.cc;
 
 
 import esgi.pmanaois.cc.kernel.CommandBus;
-import esgi.pmanaois.cc.kernel.EventDispatcher;
 import esgi.pmanaois.cc.kernel.QueryBus;
 import esgi.pmanaois.cc.modules.project.application.assignworker.AssignWorker;
 import esgi.pmanaois.cc.modules.project.application.assignworker.AssignWorkerHandler;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProject;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProjectHandler;
-import esgi.pmanaois.cc.modules.project.application.close.ProjectClosed;
-import esgi.pmanaois.cc.modules.project.application.close.ProjectClosedEventListener;
 import esgi.pmanaois.cc.modules.project.application.create.RegisterProject;
 import esgi.pmanaois.cc.modules.project.application.create.RegisterProjectHandler;
 import esgi.pmanaois.cc.modules.project.application.list.ListProjects;
@@ -29,8 +26,6 @@ import org.springframework.context.annotation.Configuration;
 public class ProjectConfiguration {
     @Autowired
     KernelConfiguration kernelConfiguration;
-    @Autowired
-    CommonConfiguration commonConfiguration;
 
     @Bean
     public Projects projectRepository() {
@@ -59,12 +54,12 @@ public class ProjectConfiguration {
 
     @Bean
     public RegisterProjectHandler registerProjectHandler() {
-        return new RegisterProjectHandler(projectRepository(), projectService(), kernelConfiguration.eventDispatcher());
+        return new RegisterProjectHandler(projectRepository(), projectService());
     }
 
     @Bean
     public CloseProjectHandler closeProjectHandler() {
-        return new CloseProjectHandler(projectService(), kernelConfiguration.eventDispatcher());
+        return new CloseProjectHandler(projectService());
     }
 
     @Bean
@@ -86,13 +81,5 @@ public class ProjectConfiguration {
         final QueryBus queryBus = kernelConfiguration.queryBus();
         queryBus.addHandler(ListProjects.class, listProjectsHandler());
         return queryBus;
-    }
-
-    @Bean
-    public ProjectClosedEventListener projectClosedEventListener() {
-        EventDispatcher dispatcher = kernelConfiguration.eventDispatcher();
-        ProjectClosedEventListener listener = new ProjectClosedEventListener();
-        dispatcher.addListener(ProjectClosed.class, listener);
-        return listener;
     }
 }
