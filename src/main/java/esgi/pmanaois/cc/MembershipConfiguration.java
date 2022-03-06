@@ -2,14 +2,20 @@ package esgi.pmanaois.cc;
 
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
+import esgi.pmanaois.cc.kernel.QueryBus;
 import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
+import esgi.pmanaois.cc.modules.common.WorkerAssigned;
+import esgi.pmanaois.cc.modules.membership.application.ListUsers;
+import esgi.pmanaois.cc.modules.membership.application.ListUsersHandler;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
 import esgi.pmanaois.cc.modules.membership.application.RegisterUserHandler;
 import esgi.pmanaois.cc.modules.membership.application.SubscriptionCreatedListener;
-import esgi.pmanaois.cc.modules.membership.application.UserService;
+import esgi.pmanaois.cc.modules.membership.application.WorkerAssignedListener;
 import esgi.pmanaois.cc.modules.membership.domain.EmailValidationEngine;
+import esgi.pmanaois.cc.modules.membership.domain.UserService;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 import esgi.pmanaois.cc.modules.membership.infrastructure.InMemoryUsers;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +37,12 @@ public class MembershipConfiguration {
 
     @Bean
     public UserService userService() {
-        return new UserService(emailValidationEngine(), this.commonConfiguration.paymentMethodIdValidationEngine());
+        return new UserService(emailValidationEngine(), this.commonConfiguration.paymentMethodIdValidationEngine(), users());
+    }
+
+    @Bean
+    public ListUsersHandler listUsersHandler() {
+        return new ListUsersHandler(users());
     }
 
     @Bean
@@ -48,11 +59,26 @@ public class MembershipConfiguration {
     }
 
     @Bean
+    public QueryBus membershipQueryBus() {
+        final QueryBus queryBus = kernelConfiguration.queryBus();
+        queryBus.addHandler(ListUsers.class, listUsersHandler());
+        return queryBus;
+    }
+
+    @Bean
     public SubscriptionCreatedListener membershipSubscriptionCreatedListener() {
         EventDispatcher dispatcher = this.kernelConfiguration.eventDispatcher();
         SubscriptionCreatedListener listener = new SubscriptionCreatedListener(users());
         dispatcher.addListener(SubscriptionCreated.class, listener);
 
+        return listener;
+    }
+
+    @Bean
+    public WorkerAssignedListener membershipWorkerAssignedListener() {
+        EventDispatcher dispatcher = this.kernelConfiguration.eventDispatcher();
+        WorkerAssignedListener listener = new WorkerAssignedListener(userService());
+        dispatcher.addListener(WorkerAssigned.class, listener);
         return listener;
     }
 }

@@ -5,7 +5,8 @@ import esgi.pmanaois.cc.modules.common.PaymentsInitiated;
 import esgi.pmanaois.cc.modules.common.ProjectPaymentsInitiated;
 import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
 import esgi.pmanaois.cc.modules.common.UserRegistered;
-import esgi.pmanaois.cc.modules.project.application.close.ProjectClosed;
+import esgi.pmanaois.cc.modules.common.WorkerAssigned;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,8 +23,8 @@ public class KernelConfiguration {
         dispatcher.registerEvent(PaymentsInitiated.class);
         dispatcher.registerEvent(SubscriptionCreated.class);
         dispatcher.registerEvent(UserRegistered.class);
-        dispatcher.registerEvent(ProjectClosed.class);
         dispatcher.registerEvent(ProjectPaymentsInitiated.class);
+        dispatcher.registerEvent(WorkerAssigned.class);
         return dispatcher;
     }
 

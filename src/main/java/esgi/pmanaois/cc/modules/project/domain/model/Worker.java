@@ -6,23 +6,19 @@ import java.util.UUID;
 
 import esgi.pmanaois.cc.kernel.UniqueId;
 
-public class Owner implements UniqueId {
+public class Worker implements UniqueId {
     private final UUID value;
-
-    private Owner(UUID value) {
+    
+    private Worker(UUID value) {
         this.value = Objects.requireNonNull(value);
     }
 
-    public static Optional<Owner> fromString(String value) {
+    public static Optional<Worker> fromString(String uid) {
         try {
-            return Optional.of(new Owner(UUID.fromString(value)));
+            return Optional.of(new Worker(UUID.fromString(uid)));
         } catch(Exception e) {
             return Optional.empty();
         }
-    }
-
-    public static Owner of(UUID uid) {
-        return new Owner(uid);
     }
 
     public UUID getValue() {

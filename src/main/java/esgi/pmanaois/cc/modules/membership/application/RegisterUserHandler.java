@@ -5,6 +5,7 @@ import esgi.pmanaois.cc.kernel.Event;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
 import esgi.pmanaois.cc.modules.common.UserRegistered;
 import esgi.pmanaois.cc.modules.membership.domain.User;
+import esgi.pmanaois.cc.modules.membership.domain.UserService;
 import esgi.pmanaois.cc.modules.membership.domain.Users;
 
 import java.util.Objects;
