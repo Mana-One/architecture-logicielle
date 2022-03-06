@@ -14,28 +14,31 @@ final public class Project implements Entity<ProjectId> {
     private final Owner owner;
     private Status status;
     private final List<String> requiredSkills;
+    private List<Worker> workers;
     private final ZonedDateTime startDate;
     private ZonedDateTime endDate;
 
-    private Project(ProjectId id, String name, Owner owner, Status status, List<String> requiredSkills, ZonedDateTime startDate) {
+    private Project(ProjectId id, String name, Owner owner, Status status, List<String> requiredSkills, List<Worker> workers, ZonedDateTime startDate, ZonedDateTime endDate) {
         this.id = id;
         this.name = name;
         this.owner = owner;
         this.status = status;
         this.requiredSkills = requiredSkills;
+        this.workers = workers;
         this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    void assignWorker(Worker worker) {
+        this.workers.add(worker);
     }
 
     public static Project create(String name, Owner owner, List<String> requiredSkills, ZonedDateTime startDate) {
-        return new Project(ProjectId.generate(), name, owner, Status.WAITING, requiredSkills, startDate);
+        return new Project(ProjectId.generate(), name, owner, Status.WAITING, requiredSkills, List.of(), startDate, null);
     }
 
     public ProjectId getId() {
         return id;
-    }
-
-    public ProjectId id() {
-        return null;
     }
 
     public String getName() {
@@ -52,6 +55,10 @@ final public class Project implements Entity<ProjectId> {
 
     public List<String> getRequiredSkills() {
         return Collections.unmodifiableList(this.requiredSkills);
+    }
+
+    public List<Worker> getWorkers() {
+        return Collections.unmodifiableList(this.workers);
     }
 
     public ZonedDateTime getStartDate() {

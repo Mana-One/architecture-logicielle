@@ -45,6 +45,7 @@ public class ProjectController {
             project.getOwner().getValue().toString(), 
             project.getStatus().toString(), 
             project.getRequiredSkills(),
+            project.getWorkers().stream().map(w -> w.getValue().toString()).collect(Collectors.toList()),
             project.getStartDate(), 
             project.getEndDate()
         ));
@@ -60,6 +61,7 @@ public class ProjectController {
                 p.getOwner().getValue().toString(), 
                 p.getStatus().toString(), 
                 p.getRequiredSkills(),
+                p.getWorkers().stream().map(w -> w.getValue().toString()).collect(Collectors.toList()),
                 p.getStartDate(), 
                 p.getEndDate())
             ).collect(Collectors.toList()
