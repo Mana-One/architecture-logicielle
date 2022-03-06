@@ -1,37 +1,31 @@
-package fr.al_cc2.infrastructure;
+package esgi.pmanaois.cc.modules.project.infrastructure;
 
-import fr.al_cc2.domain.model.Project;
-import fr.al_cc2.domain.model.ProjectId;
-import fr.al_cc2.domain.repository.ProjectRepository;
 
-import java.util.List;
+import esgi.pmanaois.cc.modules.project.domain.Projects;
+import esgi.pmanaois.cc.modules.project.domain.model.Project;
+import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
+
+
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryProjectRepository implements ProjectRepository {
+public class InMemoryProjectRepository implements Projects {
 
-    private final AtomicInteger count = new AtomicInteger(0);
-
-    private final Map<ProjectId, Project> data = new ConcurrentHashMap<>();
+    final private Map<ProjectId, Project> data = new ConcurrentHashMap<>();
 
     @Override
-    public List<Project> findAll() {
-        return List.copyOf(data.values());
+    public Optional<Project> findById(ProjectId id) {
+        return Optional.ofNullable(data.get(id));
     }
 
     @Override
-    public ProjectId nextIdentity() {
-        return new ProjectId(count.incrementAndGet());
+    public void remove(ProjectId id) {
+        this.data.remove(id);
     }
 
     @Override
-    public void add(Project project) {
-        data.put(project.getId(), project);
-    }
-
-    @Override
-    public void delete(ProjectId id) {
-        data.remove(id);
+    public void save(Project project) {
+        this.data.put(project.getId(), project);
     }
 }

@@ -1,15 +1,16 @@
-package esgi.pmanaois.cc.modules.membership.domain;
+package esgi.pmanaois.cc.modules.project.domain;
 
 import java.util.EnumSet;
 import java.util.Optional;
 
-public enum Role {
-    CONTRACTOR("Contractor"),
-    TRADESMAN("Tradesman");
+public enum Status {
+    INPROGRESS("in progress"),
+    WAITING("waiting"),
+    DONE("done");
 
     final private String name; 
 
-    private Role(String name) { 
+    private Status(String name) {
         this.name = name; 
     }
 
@@ -17,8 +18,8 @@ public enum Role {
         return this.name;
     }
 
-    public static Optional<Role> fromString(String name) {
-        return EnumSet.allOf(Role.class)
+    public static Optional<Status> fromString(String name) {
+        return EnumSet.allOf(Status.class)
             .stream()
             .filter(r -> r.name.equals(name))
             .findFirst();

@@ -1,34 +1,37 @@
-package fr.al_cc2.domain.model;
+package esgi.pmanaois.cc.modules.project.domain.model;
 
-import fr.al_cc2.kernel.Entity;
+import esgi.pmanaois.cc.kernel.Entity;
+import esgi.pmanaois.cc.modules.membership.domain.*;
+import esgi.pmanaois.cc.modules.membership.domain.UserId;
+import esgi.pmanaois.cc.modules.project.domain.Status;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public final class Project implements Entity<ProjectId> {
+final public class Project implements Entity<ProjectId> {
     private final ProjectId id;
     private final String name;
     private final Owner owner;
-    private final String status;
+    private final Status status;
     private final LocalDate startDate;
     private LocalDate endDate;
 
-    public Project(ProjectId id, String name, Owner owner, String status) {
-        this.id = Objects.requireNonNull(id);
-        this.name = Objects.requireNonNull(name);
-        this.owner = Objects.requireNonNull(owner);
-        this.status = Objects.requireNonNull(status);
-        this.startDate = Objects.requireNonNull(LocalDate.now());
-        this.endDate = null;
+    private Project(ProjectId id, String name, Owner owner, Status status) {
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
+        this.status = status;
+        this.startDate = LocalDate.now();
     }
 
-    public static Project of(ProjectId id, String name, Owner owner, String status) {
-        return new Project(id, name, owner, status);
+    public static Project create(String name, Owner owner, Status status) {
+        return new Project(ProjectId.generate(), name, owner, status);
     }
 
     public ProjectId getId() { return id; }
 
-    @Override
     public ProjectId id() { return null; }
 
     public String getName() {
@@ -39,7 +42,7 @@ public final class Project implements Entity<ProjectId> {
         return owner;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -49,5 +52,13 @@ public final class Project implements Entity<ProjectId> {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+        Project project = (Project) o;
+        return Objects.equals(id, project.id);
     }
 }

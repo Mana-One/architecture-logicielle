@@ -1,9 +1,12 @@
-package esgi.pmanaois.cc.modules.project.domain.model;
+package esgi.pmanaois.cc.modules.project.application.create;
 
-import esgi.pmanaois.cc.modules.common.PaymentMethodId;
-import esgi.pmanaois.cc.modules.common.PaymentMethodIdValidationEngine;
-import esgi.pmanaois.cc.modules.membership.domain.*;
+import esgi.pmanaois.cc.modules.membership.domain.Role;
+import esgi.pmanaois.cc.modules.project.domain.InvalidProjectState;
+import esgi.pmanaois.cc.modules.project.domain.OwnerValidationEngine;
+import esgi.pmanaois.cc.modules.project.domain.Status;
+import esgi.pmanaois.cc.modules.project.domain.model.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,40 +21,29 @@ final public class ProjectService {
         this.ownerValidationEngine = Objects.requireNonNull(ownerValidationEngine);
     }
 
-    public User create(
-            String firstName,
-            String lastName,
-            String email,
-            String role,
-            String paymentMethodId
-    ) throws InvalidUserState {
+    public Project create(String name, Owner owner, String status) throws InvalidProjectState {
 
-        final List<String> errors = new ArrayList<String>();
-        final Optional<Name> optName = Name.create(firstName, lastName);
+        final List<String> errors = new ArrayList<>();
+
+        final Optional<String> optName = Optional.ofNullable(name);
         if (optName.isEmpty()) {
-            errors.add("Invalid firstname and/or lastname.");
+            errors.add("Invalid name.");
         }
 
-        final Optional<String> optEmail = emailValidationEngine.validate(email);
-        if (optEmail.isEmpty()) {
-            errors.add("Invalid email.");
+        final Optional<Owner> optOwner = ownerValidationEngine.validate(owner);
+        if (optOwner.isEmpty()) {
+            errors.add("Invalid owner.");
         }
 
-        final Optional<Role> optRole = Role.fromString(role);
-        if (optRole.isEmpty()) {
-            errors.add("Invalid role.");
-        }
-
-        final Optional<PaymentMethodId> optPaymentMethodId = this.paymentMethodIdValidationEngine
-                .validate(paymentMethodId);
-        if (optPaymentMethodId.isEmpty()) {
-            errors.add("Invalid payment method id.");
+        final Optional<Status> optStatus = Status.fromString(status);
+        if (optStatus.isEmpty()) {
+            errors.add("Invalid status.");
         }
 
         if (!errors.isEmpty()) {
-            throw InvalidUserState.fromMessages(errors);
+            throw InvalidProjectState.fromMessages(errors);
         }
 
-        return User.create(optName.get(), email, optRole.get(), optPaymentMethodId.get());
+        return Project.create(name, owner, optStatus.get());
     }
 }

@@ -1,6 +1,6 @@
-package esgi.pmanaois.cc.modules.membership.domain;
+package esgi.pmanaois.cc.modules.project.domain;
 
 import esgi.pmanaois.cc.kernel.Event;
 
-public interface UserEvent extends Event {
+public interface ProjectEvent extends Event {
 }

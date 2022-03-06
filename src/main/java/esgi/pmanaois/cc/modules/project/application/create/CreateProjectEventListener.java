@@ -1,6 +1,7 @@
-package fr.al_cc2.application.project.create;
+package esgi.pmanaois.cc.modules.project.application.create;
 
-import fr.al_cc2.kernel.event.EventListener;
+
+import esgi.pmanaois.cc.kernel.EventListener;
 
 public class CreateProjectEventListener implements EventListener<CreateProjectEvent> {
     @Override

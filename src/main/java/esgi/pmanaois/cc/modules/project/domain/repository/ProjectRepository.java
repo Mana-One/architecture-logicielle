@@ -1,8 +1,8 @@
-package fr.al_cc2.domain.repository;
+package esgi.pmanaois.cc.modules.project.domain.repository;
 
-import fr.al_cc2.domain.model.Project;
-import fr.al_cc2.domain.model.ProjectId;
-import fr.al_cc2.kernel.Repository;
+import esgi.pmanaois.cc.kernel.Repository;
+import esgi.pmanaois.cc.modules.project.domain.model.Project;
+import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 
 import java.util.List;
 

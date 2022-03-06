@@ -1,5 +1,7 @@
-package esgi.pmanaois.cc.modules.membership.domain;
+package esgi.pmanaois.cc.modules.project.domain;
 
 import esgi.pmanaois.cc.kernel.Repository;
+import esgi.pmanaois.cc.modules.project.domain.model.Project;
+import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 
-public interface Users extends Repository<UserId, User> {}
+public interface Projects extends Repository<ProjectId, Project> {}

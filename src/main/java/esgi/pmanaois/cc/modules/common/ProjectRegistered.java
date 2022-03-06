@@ -1,27 +1,28 @@
 package esgi.pmanaois.cc.modules.common;
 
 import esgi.pmanaois.cc.kernel.ApplicationEvent;
+import esgi.pmanaois.cc.modules.project.domain.model.Owner;
 
-final public class UserRegistered implements ApplicationEvent {
-    private final String userId;
-    private final String role;
-    private final String paymentMethodId;
+final public class ProjectRegistered implements ApplicationEvent {
+    private final String ProjectId;
+    private final Owner Owner;
+    private final String status;
 
-    public UserRegistered(String userId, String role, String paymentMethodId) {
-        this.userId = userId;
-        this.role = role;
-        this.paymentMethodId = paymentMethodId;
+    public ProjectRegistered(String projectId, Owner owner, String status) {
+        ProjectId = projectId;
+        Owner = owner;
+        this.status = status;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getProjectId() {
+        return ProjectId;
     }
 
-    public String getRole() {
-        return role;
+    public Owner getOwner() {
+        return Owner;
     }
 
-    public String getPaymentMethodId() {
-        return paymentMethodId;
+    public String getStatus() {
+        return status;
     }
 }

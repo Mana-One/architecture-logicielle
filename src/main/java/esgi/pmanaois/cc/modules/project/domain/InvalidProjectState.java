@@ -1,4 +1,4 @@
-package esgi.pmanaois.cc.modules.project.domain.model;
+package esgi.pmanaois.cc.modules.project.domain;
 
 import java.util.List;
 

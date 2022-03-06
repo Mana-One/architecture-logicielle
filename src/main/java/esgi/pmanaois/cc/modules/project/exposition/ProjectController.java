@@ -1,9 +1,11 @@
-package fr.al_cc2.web.project;
+package esgi.pmanaois.cc.modules.project.exposition;
 
-import fr.al_cc2.application.project.create.CreateProject;
-import fr.al_cc2.domain.model.Owner;
-import fr.al_cc2.domain.model.ProjectId;
-import fr.al_cc2.kernel.command.CommandBus;
+import esgi.pmanaois.cc.kernel.CommandBus;
+import esgi.pmanaois.cc.modules.project.application.create.RegisterProject;
+import esgi.pmanaois.cc.modules.project.domain.InvalidProjectState;
+import esgi.pmanaois.cc.modules.project.domain.model.Owner;
+import esgi.pmanaois.cc.modules.project.domain.model.Project;
+import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +17,19 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 public class ProjectController {
     private final CommandBus commandBus;
 
-    public ProjectController(CommandBus commandBus) {
-        this.commandBus = commandBus;
-    }
+    public ProjectController(CommandBus commandBus) { this.commandBus = Objects.requireNonNull(commandBus); }
 
     @PostMapping(path = "/projects", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody @Valid ProjectRequest request) {
-        CreateProject createProject = new CreateProject(request.name, new Owner(request.owner) , request.status, request.startDate, request.endDate);
-        ProjectId projectId = commandBus.send(createProject);
-        return ResponseEntity.created(URI.create("/projects/" + projectId.getValue())).build();
+        RegisterProject registerProject = new RegisterProject(request.name, new Owner(request.owner) , request.status, request.startDate, request.endDate);
+        commandBus.send(registerProject);
+        return null;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -42,5 +43,13 @@ public class ProjectController {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidProjectState.class)
+    public Map<String, String > handleInvalidProjectException(InvalidProjectState invalidProjectState){
+        final Map<String, String> error = new HashMap<>();
+        error.put("message", invalidProjectState.getMessage());
+        return error;
     }
 }

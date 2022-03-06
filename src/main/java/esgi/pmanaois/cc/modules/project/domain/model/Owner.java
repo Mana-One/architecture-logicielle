@@ -1,4 +1,4 @@
-package fr.al_cc2.domain.model;
+package esgi.pmanaois.cc.modules.project.domain.model;
 
 public class Owner {
     private final String name;

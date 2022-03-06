@@ -1,19 +1,16 @@
-package fr.al_cc2;
+package esgi.pmanaois.cc;
 
-import fr.al_cc2.application.project.create.CreateProject;
-import fr.al_cc2.application.project.create.CreateProjectCommandHandler;
-import fr.al_cc2.application.project.create.CreateProjectEvent;
-import fr.al_cc2.application.project.create.CreateProjectEventListener;
-import fr.al_cc2.domain.repository.ProjectRepository;
-import fr.al_cc2.infrastructure.DefaultEventDispatcher;
-import fr.al_cc2.infrastructure.InMemoryProjectRepository;
-import fr.al_cc2.kernel.command.Command;
-import fr.al_cc2.kernel.command.CommandBus;
-import fr.al_cc2.kernel.command.CommandHandler;
-import fr.al_cc2.kernel.command.SimpleCommandBus;
-import fr.al_cc2.kernel.event.Event;
-import fr.al_cc2.kernel.event.EventDispatcher;
-import fr.al_cc2.kernel.event.EventListener;
+
+import esgi.pmanaois.cc.kernel.*;
+import esgi.pmanaois.cc.modules.membership.application.RegisterUser;
+import esgi.pmanaois.cc.modules.membership.application.UserService;
+import esgi.pmanaois.cc.modules.project.application.create.*;
+import esgi.pmanaois.cc.modules.project.domain.OwnerValidationEngine;
+import esgi.pmanaois.cc.modules.project.domain.Projects;
+import esgi.pmanaois.cc.modules.project.domain.model.Project;
+import esgi.pmanaois.cc.modules.project.domain.repository.ProjectRepository;
+import esgi.pmanaois.cc.modules.project.infrastructure.InMemoryProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,27 +20,33 @@ import java.util.Map;
 
 @Configuration
 public class ProjectConfiguration {
+    @Autowired KernelConfiguration kernelConfiguration;
+    @Autowired CommonConfiguration commonConfiguration;
+
     @Bean
-    public ProjectRepository projectRepository() {
+    public Projects projectRepository() {
         return new InMemoryProjectRepository();
     }
 
     @Bean
-    public EventDispatcher<Event> projectEventDispatcher() {
-        final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listenerMap = new HashMap<>();
-        listenerMap.put(CreateProjectEvent.class, List.of(new CreateProjectEventListener()));
-        return new DefaultEventDispatcher(listenerMap);
+    public OwnerValidationEngine ownerValidationEngine(){
+        return new OwnerValidationEngine();
     }
 
     @Bean
-    public CreateProjectCommandHandler createProjectCommandHandler() {
-        return new CreateProjectCommandHandler(projectRepository(), projectEventDispatcher());
+    public ProjectService projectService(){
+        return new ProjectService(ownerValidationEngine());
+    }
+
+    @Bean
+    public RegisterProjectHandler registerProjectHandler() {
+        return new RegisterProjectHandler(projectRepository(), projectService(), kernelConfiguration.eventDispatcher());
     }
 
     @Bean
     public CommandBus projectCommandBus() {
-        final Map<Class<? extends Command>, CommandHandler> commandHandlerMap = new HashMap<>();
-        commandHandlerMap.put(CreateProject.class, new CreateProjectCommandHandler(projectRepository(), projectEventDispatcher()));
-        return new SimpleCommandBus(commandHandlerMap);
+        final CommandBus commandBus = kernelConfiguration.commandBus();
+        commandBus.addHandler(RegisterProject.class, registerProjectHandler());
+        return commandBus;
     }
 }

@@ -1,4 +1,6 @@
-package esgi.pmanaois.cc.modules.project.domain.model;
+package esgi.pmanaois.cc.modules.project.domain;
+
+import esgi.pmanaois.cc.modules.project.domain.model.Owner;
 
 import java.util.Optional;
 

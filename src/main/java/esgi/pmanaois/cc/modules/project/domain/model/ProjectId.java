@@ -1,18 +1,24 @@
-package fr.al_cc2.domain.model;
+package esgi.pmanaois.cc.modules.project.domain.model;
 
-import fr.al_cc2.kernel.ValueObjectID;
+import esgi.pmanaois.cc.kernel.UniqueId;
+import esgi.pmanaois.cc.modules.membership.domain.UserId;
 
 import java.util.Objects;
+import java.util.UUID;
 
-public final class ProjectId implements ValueObjectID {
-    private final int value;
+public final class ProjectId implements UniqueId {
+    private final UUID value;
 
-    public ProjectId(int value) {
-        this.value = value;
+    private ProjectId(UUID value) {
+        this.value = Objects.requireNonNull(value);
     }
 
-    public int getValue() {
+    public UUID getValue() {
         return value;
+    }
+
+    public static ProjectId generate() {
+        return new ProjectId(UUID.randomUUID());
     }
 
     @Override

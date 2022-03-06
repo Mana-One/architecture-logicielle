@@ -1,7 +1,8 @@
-package fr.al_cc2.application.project.create;
+package esgi.pmanaois.cc.modules.project.application.create;
 
-import fr.al_cc2.domain.model.ProjectId;
-import fr.al_cc2.kernel.ApplicationEvent;
+
+import esgi.pmanaois.cc.kernel.ApplicationEvent;
+import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 
 public class CreateProjectEvent implements ApplicationEvent {
     private final ProjectId projectId;

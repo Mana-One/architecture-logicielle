@@ -4,28 +4,45 @@ package esgi.pmanaois.cc.modules.project.application.create;
 import esgi.pmanaois.cc.kernel.CommandHandler;
 import esgi.pmanaois.cc.kernel.Event;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
-import esgi.pmanaois.cc.modules.project.domain.model.Owner;
-import esgi.pmanaois.cc.modules.project.domain.model.Project;
-import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
-import esgi.pmanaois.cc.modules.project.domain.repository.ProjectRepository;
+import esgi.pmanaois.cc.modules.common.ProjectRegistered;
+import esgi.pmanaois.cc.modules.common.UserRegistered;
+import esgi.pmanaois.cc.modules.membership.domain.User;
+import esgi.pmanaois.cc.modules.project.domain.Projects;
+import esgi.pmanaois.cc.modules.project.domain.model.*;
+import jdk.jfr.Registered;
 
-public class CreateProjectCommandHandler implements CommandHandler<CreateProject, ProjectId> {
+import java.util.Objects;
 
-    private final ProjectRepository projectRepository;
-    private final EventDispatcher<Event> eventEventDispatcher;
+public class RegisterProjectHandler implements CommandHandler<RegisterProject, ProjectId> {
 
-    public CreateProjectCommandHandler(ProjectRepository projectRepository, EventDispatcher<Event> eventEventDispatcher) {
-        this.projectRepository = projectRepository;
-        this.eventEventDispatcher = eventEventDispatcher;
+    final private Projects projects;
+    final private ProjectService projectService;
+    final private EventDispatcher eventDispatcher;
 
+    public RegisterProjectHandler(
+            Projects projects,
+            ProjectService projectService,
+            EventDispatcher<Event> eventDispatcher
+    ) {
+        this.projects = Objects.requireNonNull(projects);
+        this.projectService = Objects.requireNonNull(projectService);
+        this.eventDispatcher = Objects.requireNonNull(eventDispatcher);
     }
 
+
     @Override
-    public ProjectId handle(CreateProject createProject) {
-        final ProjectId projectId = projectRepository.nextIdentity();
-        Project project = Project.of(projectId, createProject.name, new Owner(createProject.owner.getName()), createProject.status);
-        projectRepository.add(project);
-        eventEventDispatcher.dispatch(new CreateProjectEvent(projectId));
-        return projectId;
+    public ProjectId handle(RegisterProject command) {
+        final Project project = this.projectService.create(
+                command.name,
+                command.owner,
+                command.status);
+
+        this.projects.save(project);
+        this.eventDispatcher.dispatch(new ProjectRegistered(
+                project.getId().getValue().toString(),
+                command.owner,
+                command.status));
+
+        return null;
     }
 }

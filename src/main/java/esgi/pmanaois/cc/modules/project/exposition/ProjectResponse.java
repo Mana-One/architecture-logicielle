@@ -1,4 +1,4 @@
-package fr.al_cc2.web.project;
+package esgi.pmanaois.cc.modules.project.exposition;
 
 import java.time.LocalDate;
 
