@@ -2,6 +2,7 @@ package esgi.pmanaois.cc;
 
 import esgi.pmanaois.cc.kernel.*;
 import esgi.pmanaois.cc.modules.common.PaymentsInitiated;
+import esgi.pmanaois.cc.modules.common.ProjectPaymentsInitiated;
 import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
 import esgi.pmanaois.cc.modules.common.UserRegistered;
 import esgi.pmanaois.cc.modules.project.application.close.ProjectClosed;
@@ -22,6 +23,7 @@ public class KernelConfiguration {
         dispatcher.registerEvent(SubscriptionCreated.class);
         dispatcher.registerEvent(UserRegistered.class);
         dispatcher.registerEvent(ProjectClosed.class);
+        dispatcher.registerEvent(ProjectPaymentsInitiated.class);
         return dispatcher;
     }
 

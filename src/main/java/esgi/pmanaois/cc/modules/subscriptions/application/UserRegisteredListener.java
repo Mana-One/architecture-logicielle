@@ -4,9 +4,9 @@ import esgi.pmanaois.cc.kernel.Clock;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
 import esgi.pmanaois.cc.kernel.EventListener;
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
+import esgi.pmanaois.cc.modules.common.Price;
 import esgi.pmanaois.cc.modules.common.SubscriptionCreated;
 import esgi.pmanaois.cc.modules.common.UserRegistered;
-import esgi.pmanaois.cc.modules.subscriptions.domain.Price;
 import esgi.pmanaois.cc.modules.subscriptions.domain.Subscription;
 import esgi.pmanaois.cc.modules.subscriptions.domain.Subscriptions;
 

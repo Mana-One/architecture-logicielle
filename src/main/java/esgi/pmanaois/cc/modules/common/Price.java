@@ -1,4 +1,4 @@
-package esgi.pmanaois.cc.modules.subscriptions.domain;
+package esgi.pmanaois.cc.modules.common;
 
 import java.util.Objects;
 import java.util.Optional;
