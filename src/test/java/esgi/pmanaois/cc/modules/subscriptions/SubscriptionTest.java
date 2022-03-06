@@ -1,7 +1,7 @@
 package esgi.pmanaois.cc.modules.subscriptions;
 
 import esgi.pmanaois.cc.modules.common.PaymentMethodId;
-import esgi.pmanaois.cc.modules.subscriptions.domain.Price;
+import esgi.pmanaois.cc.modules.common.Price;
 import esgi.pmanaois.cc.modules.subscriptions.domain.Subscription;
 import esgi.pmanaois.cc.modules.subscriptions.domain.SubscriptionContinued;
 import esgi.pmanaois.cc.modules.subscriptions.domain.SubscriptionInitialized;
