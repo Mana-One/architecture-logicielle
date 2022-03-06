@@ -1,12 +1,11 @@
 package esgi.pmanaois.cc.modules.project.application.close;
 
 import esgi.pmanaois.cc.kernel.Command;
-import esgi.pmanaois.cc.modules.project.domain.model.ProjectId;
 
 final public class CloseProject implements Command {
-    final public ProjectId projectId;
+    final public String projectId;
 
-    public CloseProject(ProjectId projectId) {
+    public CloseProject(String projectId) {
         this.projectId = projectId;
     }
 }

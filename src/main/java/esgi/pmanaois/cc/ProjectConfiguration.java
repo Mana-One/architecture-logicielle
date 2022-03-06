@@ -4,6 +4,8 @@ package esgi.pmanaois.cc;
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.kernel.EventDispatcher;
 import esgi.pmanaois.cc.kernel.QueryBus;
+import esgi.pmanaois.cc.modules.project.application.assignworker.AssignWorker;
+import esgi.pmanaois.cc.modules.project.application.assignworker.AssignWorkerHandler;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProject;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProjectHandler;
 import esgi.pmanaois.cc.modules.project.application.close.ProjectClosed;
@@ -15,7 +17,9 @@ import esgi.pmanaois.cc.modules.project.application.list.ListProjectsHandler;
 import esgi.pmanaois.cc.modules.project.domain.OwnerValidationEngine;
 import esgi.pmanaois.cc.modules.project.domain.ProjectService;
 import esgi.pmanaois.cc.modules.project.domain.Projects;
+import esgi.pmanaois.cc.modules.project.domain.WorkerMatcher;
 import esgi.pmanaois.cc.modules.project.infrastructure.InMemoryProjectRepository;
+import esgi.pmanaois.cc.modules.project.infrastructure.SimpleWorkerMatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,8 +43,18 @@ public class ProjectConfiguration {
     }
 
     @Bean
+    public WorkerMatcher workerMatcher() {
+        return new SimpleWorkerMatcher();
+    }
+
+    @Bean
     public ProjectService projectService() {
-        return new ProjectService(ownerValidationEngine(), projectRepository(), kernelConfiguration.clock());
+        return new ProjectService(ownerValidationEngine(), workerMatcher(), projectRepository(), kernelConfiguration.clock());
+    }
+
+    @Bean
+    public AssignWorkerHandler assignWorkerHandler() {
+        return new AssignWorkerHandler(projectService(), kernelConfiguration.eventDispatcher());
     }
 
     @Bean
@@ -50,7 +64,7 @@ public class ProjectConfiguration {
 
     @Bean
     public CloseProjectHandler closeProjectHandler() {
-        return new CloseProjectHandler(projectRepository(), projectService(), kernelConfiguration.eventDispatcher());
+        return new CloseProjectHandler(projectService(), kernelConfiguration.eventDispatcher());
     }
 
     @Bean
@@ -62,6 +76,7 @@ public class ProjectConfiguration {
     public CommandBus projectCommandBus() {
         final CommandBus commandBus = kernelConfiguration.commandBus();
         commandBus.addHandler(RegisterProject.class, registerProjectHandler());
+        commandBus.addHandler(AssignWorker.class, assignWorkerHandler());
         commandBus.addHandler(CloseProject.class, closeProjectHandler());
         return commandBus;
     }

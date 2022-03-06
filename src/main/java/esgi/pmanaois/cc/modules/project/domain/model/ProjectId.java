@@ -3,6 +3,7 @@ package esgi.pmanaois.cc.modules.project.domain.model;
 import esgi.pmanaois.cc.kernel.UniqueId;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public final class ProjectId implements UniqueId {
@@ -12,8 +13,12 @@ public final class ProjectId implements UniqueId {
         this.value = Objects.requireNonNull(value);
     }
 
-    public static ProjectId fromString(String projectId) {
-        return new ProjectId(UUID.fromString(projectId));
+    public static Optional<ProjectId> fromString(String projectId) {
+        try {
+            return Optional.of(new ProjectId(UUID.fromString(projectId)));
+        } catch(Exception e) {
+            return Optional.empty();
+        }
     }
 
     public UUID getValue() {

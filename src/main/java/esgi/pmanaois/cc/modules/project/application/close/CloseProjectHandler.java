@@ -7,12 +7,10 @@ import esgi.pmanaois.cc.modules.project.domain.Projects;
 import esgi.pmanaois.cc.modules.project.domain.model.Project;
 
 final public class CloseProjectHandler implements CommandHandler<CloseProject, Void> {
-    final private Projects projects;
     final private ProjectService projectService;
     final private EventDispatcher eventDispatcher;
 
-    public CloseProjectHandler(Projects projects, ProjectService projectService, EventDispatcher eventDispatcher) {
-        this.projects = projects;
+    public CloseProjectHandler(ProjectService projectService, EventDispatcher eventDispatcher) {
         this.projectService = projectService;
         this.eventDispatcher = eventDispatcher;
     }
@@ -36,9 +34,7 @@ final public class CloseProjectHandler implements CommandHandler<CloseProject, V
 
     @Override
     public Void handle(CloseProject command) {
-        Project project = projectService.retrieveProject(command.projectId);
-        projectService.closeProject(project);
-        projects.save(project);
+        projectService.closeProject(command.projectId);
         eventDispatcher.dispatch(new ProjectClosed());
         return null;
     }

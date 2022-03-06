@@ -2,6 +2,7 @@ package esgi.pmanaois.cc.modules.project.exposition;
 
 import esgi.pmanaois.cc.kernel.CommandBus;
 import esgi.pmanaois.cc.kernel.QueryBus;
+import esgi.pmanaois.cc.modules.project.application.assignworker.AssignWorker;
 import esgi.pmanaois.cc.modules.project.application.close.CloseProject;
 import esgi.pmanaois.cc.modules.project.application.create.RegisterProject;
 import esgi.pmanaois.cc.modules.project.application.list.ListProjects;
@@ -40,7 +41,7 @@ public class ProjectController {
         RegisterProject registerProject = new RegisterProject(request.name, request.owner, request.requiredSkills);
         Project project = commandBus.send(registerProject);
         return ResponseEntity.ok(new ProjectResponse(
-            project.getId().toString(), 
+            project.getId().getValue().toString(), 
             project.getName(), 
             project.getOwner().getValue().toString(), 
             project.getStatus().toString(), 
@@ -69,9 +70,19 @@ public class ProjectController {
         return ResponseEntity.ok(new ProjectsResponse(response));
     }
 
-    @PatchMapping(path = "/projects/{projectId}/close")
+    @PutMapping(path = "/projects/{projectId}/assign-worker",  consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> assingWorker(
+        @PathVariable("projectId") String projectId,
+        @RequestBody @Valid AssignWorkerRequest request
+    ) {
+        AssignWorker assignWorker = new AssignWorker(projectId, request.worker);
+        commandBus.send(assignWorker);
+        return null;
+    }
+
+    @PutMapping(path = "/projects/{projectId}/close")
     public ResponseEntity<Void> close(@PathVariable("projectId") String projectId) {
-        CloseProject closeProject = new CloseProject(ProjectId.fromString(projectId));
+        CloseProject closeProject = new CloseProject(projectId);
         commandBus.send(closeProject);
         return ResponseEntity.ok().build();
     }

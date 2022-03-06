@@ -4,6 +4,7 @@ import esgi.pmanaois.cc.kernel.Entity;
 import esgi.pmanaois.cc.modules.project.domain.Status;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -29,12 +30,12 @@ final public class Project implements Entity<ProjectId> {
         this.endDate = endDate;
     }
 
-    void assignWorker(Worker worker) {
+    public void assignWorker(Worker worker) {
         this.workers.add(worker);
     }
 
     public static Project create(String name, Owner owner, List<String> requiredSkills, ZonedDateTime startDate) {
-        return new Project(ProjectId.generate(), name, owner, Status.WAITING, requiredSkills, List.of(), startDate, null);
+        return new Project(ProjectId.generate(), name, owner, Status.WAITING, requiredSkills, new ArrayList<>(), startDate, null);
     }
 
     public ProjectId getId() {
@@ -58,7 +59,7 @@ final public class Project implements Entity<ProjectId> {
     }
 
     public List<Worker> getWorkers() {
-        return Collections.unmodifiableList(this.workers);
+        return this.workers;
     }
 
     public ZonedDateTime getStartDate() {
